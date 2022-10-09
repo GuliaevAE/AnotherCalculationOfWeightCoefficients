@@ -1,0 +1,27 @@
+html, body{
+    margin:0;
+    padding: 0 0;
+}
+
+html::-webkit-scrollbar {
+    width: 0;
+  }
+
+@font-face {
+    font-family: "CurrentRegular";
+    src: url(../fonts/Current-Regular.otf) format("truetype");
+  }
+  @font-face {
+    font-family: "ErmilovBold";
+    src: url(../fonts/Ermilov-bold.otf) format("truetype");
+  }
+  
+  @font-face {
+    font-family: "AktivGroteskCorp";
+    src: url(../fonts/AktivGroteskCorp-Medium.ttf) format("truetype");
+  }
+  
+  @font-face {
+    font-family: "UncutSansRegular";
+    src: url(../fonts/ua-BRAND-regular.otf) format("truetype");
+  }
