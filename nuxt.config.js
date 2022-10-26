@@ -1,5 +1,9 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  // mode:'spa',
+  router: {
+     base: '/AnotherCalculationOfWeightCoefficients/'
+   },
   head: {
     title: 'pr1',
     htmlAttrs: {
@@ -36,6 +40,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    
+    
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

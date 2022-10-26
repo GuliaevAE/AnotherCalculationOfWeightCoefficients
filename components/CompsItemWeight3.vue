@@ -1,24 +1,99 @@
 <template>
-    <div class="item" @mouseenter="isHov=true, isOpen=true" @mouseleave="isHov=false, isOpen=false">
+    <div class="item" @mouseenter="isHov=true" @mouseleave="isHov=false">
         <!-- @mouseenter="isHov=true" @mouseleave="isHov=false" -->
+        <div class="">
+            <span id="store" :class="{activestore: isHov, juststore:!isHov}">{{store}}</span>
+            <span>{{price}}</span>
+            
+        </div>
+        <div class="data" :style="styleObj">
+           
+                
+                
+                <span class="title">{{name}}</span>
+                <span>Рейтинг: {{transformations.рейтинг.toFixed(3)}}</span>
 
-        <div class="data">
-            <div class="divName">
-                <div class="nameAndStore" :class="{activeText: isHov}">
-                    <div style="display:flex; justify-content:space-between">
-                        <span class="store" :class="{activestore: isHov, juststore:!isHov}">{{store}}</span>
-                        <a class="store" :class="{activestore: isHov, juststore:!isHov}" target="_blank"
-                            :href=link>{{price}}₽</a>
+                <div class="deskr" :class="{activeText: isHov}">
+                    <div class="hov" v-if="type==='Видеокарта'">
+                        <span>Видеочипсет: {{cpu['par1']}}</span>
+                        <span class="Гб">Память: {{cpu['par2']}}</span>
+                        <span class="МГц">Частота: {{cpu['par8']}}</span>
+                        <span>Интерфейс: {{cpu['par3']}}</span>
+
+                        <span>Частота памяти: {{cpu['ЧастотаПамяти']}}</span>
+                        <span>Техпроцесс: {{cpu['Техпроцесс']}}</span>
+                        <span>Тип памяти: {{cpu['ТипПамяти']}}</span>
+                        <span>Разрядность шины памяти: {{cpu['РазрядностьШиныПамяти']}}</span>
+
+                    </div>
+                    <div class="hov" v-if="type==='Процессор'">
+                        <span>Ядро: {{cpu['par1']}}</span>
+                        <span class="ГГц">Частота: {{cpu['par2']}}</span>
+                        <span>Сокет: {{cpu['par3']}}</span>
+                        <span>Число потоков: {{cpu['par4']}}</span>
+                        <span>Тепловыделение: {{cpu['par5']}}</span>
+
+                        <span>Кол-во ядер: {{cpu['КоличествоЯдер']}}</span>
+                        <span>Кол-во каналов: {{cpu['КоличествоКаналов']}}</span>
+                        <span>Техпроцесс: {{cpu['Техпроцесс']}}</span>
+                        <span>Модель граф.ядра: {{cpu['МодельГрафическогоЯдра']}}</span>
+                        <span v-if="cpu['ЧастотаГрафическогоЯдра']!=0">ЧастотаГрафическогоЯдра:
+                            {{cpu['ЧастотаГрафическогоЯдра']}}</span>
+
+                        <span>Частота памяти: {{cpu['ЧастотаПамяти']}}</span>
+
+                    </div>
+                    <div class="hov" v-if="type==='Оперативная память'">
+                        <span class="Гб">Объем: {{cpu['par1']}}</span>
+                        <span class="ГГц">Частота: {{cpu['par2']}}</span>
+                        <span>Латентность: {{cpu['par3']}}</span>
+                        
+                        <span>Форм-фактор: {{cpu['par5']}}</span>
+
+                        <span>ТипПамяти: {{cpu['ТипПамяти']}}</span>
+                        <span>КоличествоМодулей: {{cpu['КоличествоМодулей']}}</span>
+                        <span>ОбъемМодуля: {{cpu['ОбъемМодуля']}}</span>
+
+                    </div>
+                    <div class="hov" v-if="type==='Материнская плата'">
+                        <span>Сокет: {{cpu['Сокет']}}</span>
+                        <span>Чипсет: {{cpu['Чипсет']}}</span>
+                        <span>Тип памяти: {{cpu['ТипПамяти']}}</span>
+                        <span>Макс. частота памяти: {{cpu['МаксимальнаяЧастотаПамяти']}}</span>
+                        <span>Макс.объем памяти: {{cpu['МаксимальныйОбъемПамяти']}}</span>
+                        <span>Кол-во каналов памяти: {{cpu['КоличествоКаналовПамяти']}}</span>
+                        <span>Кол-во PCIE1: {{cpu['КоличествоСлотовPCIE1']}}</span>
+                        <span>Форм-фактор: {{cpu['ФормФактор']}}</span>
+                        <span>Тип памяти: {{cpu['ТипПамяти']}}</span>
+                        <span>Кол-во слотов памяти: {{cpu['КоличествоСлотовПамяти']}}</span>
                     </div>
 
+                </div>
+                
+           
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <div class="data" :style="styleObj">
+            <div class="divName">
+                <div class="nameAndStore" :class="{activeText: isHov}">
+                    <span id="store" :class="{activestore: isHov, juststore:!isHov}">{{store}}</span>
                     <span class="title">{{name}}</span>
                 </div>
 
 
                 <div class="deskr" :class="{activeText: isHov}">
-                    <!-- <span id="price" class="price" :class="{activeprice: isHov}">{{price}}₽</span> -->
                     <div class="hov" v-if="type==='Видеокарта'">
-                        <!-- <span>Видеочипсет: {{cpu['par1']}}</span> -->
+                        <span>Видеочипсет: {{cpu['par1']}}</span>
                         <span class="Гб">Память:{{cpu['par2']}}</span>
                         <span class="МГц">Частота: {{cpu['par8']}}</span>
                         <span>Интерфейс: {{cpu['par3']}}</span>
@@ -50,7 +125,7 @@
                         <span class="Гб">Объем: {{cpu['par1']}}</span>
                         <span class="ГГц">Частота: {{cpu['par2']}}</span>
                         <span>Латентность: {{cpu['par3']}}</span>
-                        <!-- <span>Задержки: {{cpu['par4']}}</span> -->
+                        
                         <span>Форм-фактор: {{cpu['par5']}}</span>
 
                         <span>ТипПамяти: {{cpu['ТипПамяти']}}</span>
@@ -74,9 +149,9 @@
                 </div>
             </div>
             <div class="divOther">
-                <span>{{type.toUpperCase()}}</span>
-                <!-- <span id="link" :class="{actionlink: isHov, justlink: !isHov}"><a target="_blank" :href=link>+</a></span> -->
-                <div v-if="isImage==='false' ">
+                <span id="price" class="price ₽" :class="{activeprice: isHov}">{{price}}</span>
+                <span id="link" :class="{actionlink: isHov, justlink: !isHov}"><a target="_blank" :href=link>+</a></span>
+                <div v-if="isImage==='true' ">
                     <img :src="image" />
 
                 </div>
@@ -86,51 +161,38 @@
 
 
         <div class="footer" :class="{activeprice: isHov}">
-
-            <span id="rating">RATING: {{transformations.рейтинг.toFixed(3)}}</span>
-
+            <span>Рейтинг: {{transformations.рейтинг.toFixed(3)}}</span>
             <div>
-
-                <div v-if="type==='Видеокарта' && isOpen" style="display:flex;flex-direction:column;">
+                <div v-if="type==='Видеокарта' && isOpen" style="display:flex;flex-direction:column;" >
                     <span>Частота: {{transformations.видеокартаНорм.частоставидеокарты.toFixed(3)}}</span>
                     <span>Число потоков: {{transformations.видеокартаНорм.памятьвидеокарты.toFixed(3)}}</span>
-
+    
                     <span>Частота памяти: {{transformations.видеокартаНорм.ЧастотаПамяти.toFixed(3)}}</span>
                     <span>Техпроцесс: {{transformations.видеокартаНорм.Техпроцесс.toFixed(3)}}</span>
                     <span>Разрядность шины памяти:
                         {{transformations.видеокартаНорм.РазрядностьШиныПамяти.toFixed(3)}}</span>
                 </div>
-                <div v-if="type==='Процессор' && isOpen" style="display:flex;flex-direction:column;">
-
+                <div v-if="type==='Процессор' && isOpen" style="display:flex;flex-direction:column;" >
+    
                     <span>Частота: {{transformations.процессорНорм.частостапроцессора.toFixed(3)}}</span>
                     <span>Число потоков: {{transformations.процессорНорм.числопотоков.toFixed(3)}}</span>
-
+    
                     <span>Количество ядер: {{transformations.процессорНорм.КоличествоЯдер.toFixed(3)}}</span>
                     <span>Количество каналов: {{transformations.процессорНорм.КоличествоКаналов.toFixed(3)}}</span>
                     <span v-if="cpu['ЧастотаГрафическогоЯдра']!=0">ЧастотаГрафическогоЯдра:
                         {{transformations.процессорНорм.ЧастотаГрафическогоЯдра.toFixed(3)}}</span>
-
-
-
-
-
-                    <!-- <span>ЧастотаПамяти: {{transformations.процессорНорм.ЧастотаПамяти.toFixed(3)}}</span> -->
-
-
-
-
-
+                  
                 </div>
-                <div v-if="type==='Оперативная память' && isOpen" style="display:flex;flex-direction:column;">
-
+                <div v-if="type==='Оперативная память' && isOpen" style="display:flex;flex-direction:column;" >
+    
                     <span>Объём: {{transformations.оперативкаНорм.объем.toFixed(3)}}</span>
                     <span>Частота: {{transformations.оперативкаНорм.частотаоперативки.toFixed(3)}}</span>
-
+    
                     <span>Кол-во модулей: {{transformations.оперативкаНорм.КоличествоМодулей.toFixed(3)}}</span>
                     <span>Объем модуля: {{transformations.оперативкаНорм.ОбъемМодуля.toFixed(3)}}</span>
                 </div>
-                <div v-if="type==='Материнская плата' && isOpen" style="display:flex;flex-direction:column;">
-
+                <div v-if="type==='Материнская плата' && isOpen" style="display:flex;flex-direction:column;" >
+    
                     <span>Макс.частота памяти:
                         {{transformations.оперативкаНорм.МаксимальнаяЧастотаПамяти.toFixed(3)}}</span>
                     <span>Макс.объем памяти:
@@ -141,13 +203,13 @@
                         {{transformations.оперативкаНорм.КоличествоСлотовPCIE1.toFixed(3)}}</span>
                     <span>Кол-во слотов памяти:
                         {{transformations.оперативкаНорм.КоличествоСлотовПамяти.toFixed(3)}}</span>
-
+    
                 </div>
 
             </div>
-
-
-        </div>
+            
+            
+        </div> -->
 
     </div>
 </template>
@@ -159,13 +221,13 @@ export default {
     data: function () {
         return {
             isHov: false,
-            isOpen: false,
-            styleObj: {
+            isOpen: true,
+            styleObj:{
                 // backgroundImage: 'url('+this.image+') ',
-                // backgroundSize: 'contain',
-                // opacity:0.5,
+                // backgroundSize: '100% 100%',
+                // backgroundPosition:'center',
                 // backgroundRepeat: 'no-repeat'
-
+                
             }
 
         }
@@ -177,59 +239,102 @@ export default {
 }
 </script>
   
-<!-- eef0f3 -->
-<!-- 27272c -->
-<!-- transform-style:preserve-3d;
-    transform: rotateX(30deg);  -->
-<style scoped>
-#rating {
-    font-family: "CurrentRegular";
-    font-weight: 700;
-    font-size: 25px;
-    margin-top: 10px;
-}
 
+<style scoped>
+
+
+span{
+    font-size: 15px;
+}
 .item {
     width: 100%;
+    background: rgba(155, 155, 155, 0.429);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    
+   
+    
+}
+
+
+
+
+
+.data {
+    display: flex;
+    flex-direction: column;
+    background: #fbfbfb;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    justify-content: space-between;
+    height: 100%;
+    box-shadow: inset 0 0 2px rgb(0, 0, 0);
+    transition: all .3s;
+    
+}
+
+
+.store{
+    color:white
+}
+
+.hov{
+    display: flex;
+    flex-direction: column;
+}
+
+
+</style>
+
+
+
+
+
+<!-- <style scoped>
+.item {
+
+    min-height: 50px;
+    width: 100%;
     position: relative;
-    background: rgb(81, 81, 81);
+    background: rgba(155, 155, 155, 0.429);
     display: flex;
     flex-direction: column;
     margin-top: 5px;
     margin-bottom: 15px;
-    border-radius: 15px;
-    height: fit-content;
+   
+    justify-content: space-between;
+    align-items: center;
     box-sizing: border-box;
     padding: 3px;
     transition: all .5s;
     z-index: 2;
-    box-shadow: 0 -3px rgb(107, 107, 107), 0 -5px 1px rgb(6, 255, 180);
+    
 }
 
 .item:hover {
-    box-shadow: 0 -3px rgb(92, 92, 92), 0 -5px 7px rgb(6, 255, 180), 0 0px 7px rgb(6, 255, 180);
+    box-shadow:  0 0 7px rgb(6, 255, 180);
 }
 
 
 
 .data {
     display: flex;
-    background: #27272c;
-    border-radius: 12px 12px 15px 15px;
+    background: #0d0d0d83;
+    
     z-index: 2;
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
     justify-content: space-between;
+    height: 100%;
     box-shadow: inset 0 0 2px rgb(0, 0, 0);
     transition: all .3s;
 }
 
-.data:hover {
-    background: #262d2a;
-    box-shadow: inset 0 0 2px 1px rgb(0, 0, 0), inset 0 0 5px .5px rgb(6, 255, 180);
 
-}
 
 
 
@@ -237,7 +342,6 @@ export default {
 .nameAndStore {
     display: flex;
     flex-direction: column;
-    width: 100%;
 
 }
 
@@ -246,7 +350,7 @@ export default {
 }
 
 
-.store {
+#store {
     color: rgb(184, 184, 184);
 
     transition: all .3s;
@@ -279,25 +383,29 @@ a {
 
 
 .justlink {
-    top: 5px;
+    top: 40px;
+
+    
 }
 
 .actionlink {
-    top: 10px;
+    top: 44px;
     text-shadow: 0 -3px rgb(92, 92, 92), 0 -5px red;
 }
 
 
-.actionlink a::before {}
+.actionlink a::before {
+    content: 'buy';
+}
 
 
 #link {
-    font-family: "CurrentRegular";
+    
     right: 15px;
     display: block;
     transition: all .3s;
     font-weight: 1000;
-    font-size: 25px;
+    font-size: 35px;
     position: absolute;
 }
 
@@ -308,9 +416,7 @@ a {
 
 .divName {
     width: auto;
-    display: flex;
-    flex-wrap: wrap;
-
+    justify-content: center;
     align-self: center;
     font-family: 'AktivGroteskCorp';
     color: rgb(185, 185, 185);
@@ -324,14 +430,9 @@ a {
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
-
+    font-weight: 700;
+    font-size: 25px;
     margin-left: 5px;
-
-    background: rgb(81, 81, 81);
-    padding: 10px 0;
-    border-radius: 4px;
-
-
 
 }
 
@@ -362,15 +463,12 @@ a {
 
 
 
-#price {
-
+.price {
+    font-size: 25px;
     color: rgb(255, 255, 255);
     font-family: "CurrentRegular";
-    position: absolute;
+    position: relative;
     top: 0;
-    right: 0;
-    font-weight: 700;
-    font-size: 25px;
     transition: all .3s;
 }
 
@@ -386,7 +484,7 @@ a {
     top: 5px;
     color: white;
     text-shadow: -0 -3px rgb(92, 92, 92), -0 -5px red;
-
+    transition: all .3s;
 }
 
 
@@ -395,17 +493,6 @@ a {
     display: flex;
     flex-direction: column;
 }
-
-.hov span::before {
-    content: "";
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-    border: 2px solid rgb(6, 255, 180);
-    border-radius: 50%;
-    margin-right: 5px;
-}
-
 
 .footer {
     background: rgba(138, 138, 138, 0);
@@ -433,20 +520,12 @@ a {
     color: rgb(6, 255, 180)
 }
 
-.divOther span {
-    color: rgb(6, 255, 180);
-    writing-mode: vertical-lr;
-    font-weight: 700;
-    font-size: 18px;
-
-}
 
 .divOther img {
     border-radius: 5px;
-    height: auto;
-    max-width: 90px;
+    height: 100px;
+    max-width: 100px;
     position: relative;
-
 }
 
 
@@ -480,11 +559,7 @@ a {
     font-size: 15px;
     font-family: UncutSansRegular;
     font-weight: 600;
-}
-
-.deskr {
-    position: relative;
-    width: 100%;
+    color:white
 }
 
 .deskr span {
@@ -510,28 +585,4 @@ item:hover {
     box-shadow: 0 5px 5px rgb(136, 136, 136);
     animation: moveGradient 4s alternate infinite;
 }
-</style>
-<!-- hsl(269, 100%, 50%),
-hsl(314, 100%, 57%),
-hsl(359, 100%, 54%),
-hsl(44, 100%, 55%),
-hsl(89, 100%, 55%),
-hsl(134, 100%, 55%),
-hsl(179, 100%, 56%)); -->
-
-
-
-
-
-<!-- hsl(224, 100%, 58%),
-hsl(269, 100%, 50%),
-hsl(359, 100%, 54%),
-hsl(61, 100%, 50%),
-hsl(125, 100%, 50%) -->
-
-
-
-<!-- #link:hover {
-    text-shadow: -3px -3px  rgb(92, 92, 92), -5px -5px  rgb(255, 24, 24);
-    transform: rotate(45deg);
-} -->
+</style> -->

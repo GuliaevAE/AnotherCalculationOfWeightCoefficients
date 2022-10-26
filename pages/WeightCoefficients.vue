@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 
   <div class="containerr">
 
@@ -38,21 +38,21 @@
       <span @click="page-=10">Влево</span>
       <span @click="page+=10">Вправо</span>
     </div>
-    <div class="groups" v-for="(it,key) in allItems3.slice(page, page+10)" :key="key">
+    <div class="groups" v-for="(it,key) in getdatasWithWeight.slice(page, page+10)" :key="key">
       <div class="groupRating">
         <span>Общая цена: {{it.общаяцена}}₽</span>
         <span>Общий рейтинг: {{it.общийрейтинг.toFixed(5)}}</span>
 
       </div>
-      
-        <div class="groupsData">
 
-          <CompsItemWeight2 id="items" v-for="(it1, key1) in it.список" :key="key1" :name="it1['name']"
-            :store="it1['store']" :type="it1['type']" :price="it1['price']" :link="it1['link']" :cpu="it1['cpu']"
-            :transformations='it1.transformations' :w='w1' :image="it1['image']" isImage="true" />
+      <div class="groupsData">
 
-        </div>
-      
+        <CompsItemWeight2 id="items" v-for="(it1, key1) in it.список" :key="key1" :name="it1['name']"
+          :store="it1['store']" :type="it1['type']" :price="it1['price']" :link="it1['link']" :cpu="it1['cpu']"
+          :transformations='it1.transformations' :w='w1' :image="it1['image']" isImage="true" />
+
+      </div>
+
 
 
     </div>
@@ -66,17 +66,19 @@
 <script>
 
 
-
+import { mapGetters, mapActions } from 'vuex'
 import Mixin from '~/mixins.js/Mixin.js'
-import {toNumber} from '@vue/shared'
+import { toNumber } from '@vue/shared'
 import { ref } from 'vue'
 
 
 export default {
   name: 'WeightCoefficients',
   mixins: [Mixin],
-  layout:'lay1',
+  layout: 'lay1',
   methods: {
+
+    ...mapActions('datas', ['rendData']),
     inputschange() {
 
 
@@ -131,156 +133,162 @@ export default {
 
     return { stfilt, prfilt, f1, f2, f3 }
   },
-
+  mounted(){
+    this.rendData()
+  },
   computed: {
-    allItems2: function () {
+    ...mapGetters('datas', ['getdatasWithWeight']),
 
-      /////////////////////////видеокарта///////////////////////////////////
-      let толькочастотавидеокарты = { список: [] }
-      let толькопамятьвидеокарты = { список: [] }
+    // allItems2: function () {
 
-      /////////////////////////Процессор///////////////////////////////////
-      let толькочастотапроцессора = { список: [] }
-      let толькочислопотоков = { список: [] }
+    //   /////////////////////////видеокарта///////////////////////////////////
+    //   let толькочастотавидеокарты = { список: [] }
+    //   let толькопамятьвидеокарты = { список: [] }
 
-      // /////////////////////////Оперативная память///////////////////////////////////
-      let толькообъем = { список: [] }
-      let толькочастотаоперативки = { список: [] }
+    //   /////////////////////////Процессор///////////////////////////////////
+    //   let толькочастотапроцессора = { список: [] }
+    //   let толькочислопотоков = { список: [] }
 
-      let allItems1 = this.allItems.map(x => {
-        if (x['type'] === 'Видеокарта') {
-          x['cpu']['par2'] = toNumber(x['cpu']['par2'])
-          x['cpu']['par8'] = toNumber(x['cpu']['par8'])
-        }
-        if (x['type'] === 'Процессор') {
-          x['cpu']['par2'] = toNumber(x['cpu']['par2'])
-          x['cpu']['par4'] = toNumber(x['cpu']['par4'])
-        }
-        if (x['type'] === 'Оперативная память') {
-          x['cpu']['par1'] = toNumber(x['cpu']['par1'])
-          x['cpu']['par2'] = toNumber(x['cpu']['par2'])
+    //   // /////////////////////////Оперативная память///////////////////////////////////
+    //   let толькообъем = { список: [] }
+    //   let толькочастотаоперативки = { список: [] }
 
-        }
-        x['price'] = toNumber(x['price'])
-        return x
-      })
-      allItems1.map(x => {
+    //   let allItems1 = this.allItems.map(x => {
+    //     if (x['type'] === 'Видеокарта') {
+    //       x['cpu']['par2'] = toNumber(x['cpu']['par2'])
+    //       x['cpu']['par8'] = toNumber(x['cpu']['par8'])
+    //     }
+    //     if (x['type'] === 'Процессор') {
+    //       x['cpu']['par2'] = toNumber(x['cpu']['par2'])
+    //       x['cpu']['par4'] = toNumber(x['cpu']['par4'])
+    //     }
+    //     if (x['type'] === 'Оперативная память') {
+    //       x['cpu']['par1'] = toNumber(x['cpu']['par1'])
+    //       x['cpu']['par2'] = toNumber(x['cpu']['par2'])
 
-        if (x['type'] === 'Видеокарта') {
-          толькочастотавидеокарты.список.push(Number(x['cpu']['par8']))
-          толькопамятьвидеокарты.список.push(Number(x['cpu']['par2']))
-          x.transformations = { видеокартаНорм: { частоставидеокарты: 0, памятьвидеокарты: 0, }, рейтинг: 0 }
-        }
+    //     }
+    //     x['price'] = toNumber(x['price'])
+    //     return x
+    //   })
+    //   allItems1.map(x => {
 
-        if (x['type'] === 'Процессор') {
-          толькочастотапроцессора.список.push(Number(x['cpu']['par2']))
-          толькочислопотоков.список.push(Number(x['cpu']['par4']))
-          x.transformations = { процессорНорм: { частостапроцессора: 0, числопотоков: 0, }, рейтинг: 0 }
-        }
+    //     if (x['type'] === 'Видеокарта') {
+    //       толькочастотавидеокарты.список.push(Number(x['cpu']['par8']))
+    //       толькопамятьвидеокарты.список.push(Number(x['cpu']['par2']))
+    //       x.transformations = { видеокартаНорм: { частоставидеокарты: 0, памятьвидеокарты: 0, }, рейтинг: 0 }
+    //     }
 
-        if (x['type'] === 'Оперативная память') {
-          толькообъем.список.push(Number(x['cpu']['par1']))
-          толькочастотаоперативки.список.push(Number(x['cpu']['par2']))
-          x.transformations = { оперативкаНорм: { объем: 0, частотаоперативки: 0, }, рейтинг: 0 }
-        }
-        return x
-      })
-      function getOfArray(numArray) {
-        let max = 0
-        let min = numArray[0]
+    //     if (x['type'] === 'Процессор') {
+    //       толькочастотапроцессора.список.push(Number(x['cpu']['par2']))
+    //       толькочислопотоков.список.push(Number(x['cpu']['par4']))
+    //       x.transformations = { процессорНорм: { частостапроцессора: 0, числопотоков: 0, }, рейтинг: 0 }
+    //     }
 
-        numArray.forEach(x => {
-          if (x > max) { max = x }
-          if (x < min) {
+    //     if (x['type'] === 'Оперативная память') {
+    //       толькообъем.список.push(Number(x['cpu']['par1']))
+    //       толькочастотаоперативки.список.push(Number(x['cpu']['par2']))
+    //       x.transformations = { оперативкаНорм: { объем: 0, частотаоперативки: 0, }, рейтинг: 0 }
+    //     }
+    //     return x
+    //   })
+    //   function getOfArray(numArray) {
+    //     let max = 0
+    //     let min = numArray[0]
 
-            min = x
-          }
-        })
-        return { max: max, min: min }
-      }
-      толькочастотавидеокарты.мах = getOfArray(толькочастотавидеокарты.список).max
-      толькочастотавидеокарты.мин = getOfArray(толькочастотавидеокарты.список).min
-      толькопамятьвидеокарты.мах = getOfArray(толькопамятьвидеокарты.список).max
-      толькопамятьвидеокарты.мин = getOfArray(толькопамятьвидеокарты.список).min
+    //     numArray.forEach(x => {
+    //       if (x > max) { max = x }
+    //       if (x < min) {
 
-      толькочастотапроцессора.мах = getOfArray(толькочастотапроцессора.список).max
-      толькочастотапроцессора.мин = getOfArray(толькочастотапроцессора.список).min
-      толькочислопотоков.мах = getOfArray(толькочислопотоков.список).max
-      толькочислопотоков.мин = getOfArray(толькочислопотоков.список).min
+    //         min = x
+    //       }
+    //     })
+    //     return { max: max, min: min }
+    //   }
+    //   толькочастотавидеокарты.мах = getOfArray(толькочастотавидеокарты.список).max
+    //   толькочастотавидеокарты.мин = getOfArray(толькочастотавидеокарты.список).min
+    //   толькопамятьвидеокарты.мах = getOfArray(толькопамятьвидеокарты.список).max
+    //   толькопамятьвидеокарты.мин = getOfArray(толькопамятьвидеокарты.список).min
 
-      толькообъем.мах = getOfArray(толькообъем.список).max
-      толькообъем.мин = getOfArray(толькообъем.список).min
-      толькочастотаоперативки.мах = getOfArray(толькочастотаоперативки.список).max
-      толькочастотаоперативки.мин = getOfArray(толькочастотаоперативки.список).min
+    //   толькочастотапроцессора.мах = getOfArray(толькочастотапроцессора.список).max
+    //   толькочастотапроцессора.мин = getOfArray(толькочастотапроцессора.список).min
+    //   толькочислопотоков.мах = getOfArray(толькочислопотоков.список).max
+    //   толькочислопотоков.мин = getOfArray(толькочислопотоков.список).min
 
-
-
-
-      allItems1.map(x => {
-        if (x['type'] === 'Видеокарта') {
-          x.transformations.видеокартаНорм.частоставидеокарты = x['cpu']['par8'] / толькочастотавидеокарты.мах
-          x.transformations.видеокартаНорм.памятьвидеокарты = x['cpu']['par2'] / толькопамятьвидеокарты.мах
-          x.transformations.рейтинг = (x.transformations.видеокартаНорм.частоставидеокарты + x.transformations.видеокартаНорм.памятьвидеокарты) * this.w1
-        }
-
-        if (x['type'] === 'Процессор') {
-          x.transformations.процессорНорм.частостапроцессора = x['cpu']['par2'] / толькочастотапроцессора.мах
-          x.transformations.процессорНорм.числопотоков = x['cpu']['par4'] / толькочислопотоков.мах
-          x.transformations.рейтинг = (x.transformations.процессорНорм.частостапроцессора + x.transformations.процессорНорм.числопотоков) * this.w2
-        }
-
-        if (x['type'] === 'Оперативная память') {
-          x.transformations.оперативкаНорм.объем = x['cpu']['par1'] / толькообъем.мах
-          x.transformations.оперативкаНорм.частотаоперативки = x['cpu']['par2'] / толькочастотаоперативки.мах
-          x.transformations.рейтинг = (x.transformations.оперативкаНорм.объем + x.transformations.оперативкаНорм.частотаоперативки) * this.w3
-        }
-
-
-        return x
-      })
+    //   толькообъем.мах = getOfArray(толькообъем.список).max
+    //   толькообъем.мин = getOfArray(толькообъем.список).min
+    //   толькочастотаоперативки.мах = getOfArray(толькочастотаоперативки.список).max
+    //   толькочастотаоперативки.мин = getOfArray(толькочастотаоперативки.список).min
 
 
 
-      return allItems1
 
-    },
-    allItems3: function () {
-      let alls = []
-      let videokards = []
-      let processors = []
-      let memories = []
-      this.allItems2.map(x => {
-        if (x['type'] === 'Видеокарта') { videokards.push(x) }
-        if (x['type'] === 'Процессор') { processors.push(x) }
-        if (x['type'] === 'Оперативная память') { memories.push(x) }
-        return x
-      })
+    //   allItems1.map(x => {
+    //     if (x['type'] === 'Видеокарта') {
+    //       x.transformations.видеокартаНорм.частоставидеокарты = x['cpu']['par8'] / толькочастотавидеокарты.мах
+    //       x.transformations.видеокартаНорм.памятьвидеокарты = x['cpu']['par2'] / толькопамятьвидеокарты.мах
+    //       x.transformations.рейтинг = (x.transformations.видеокартаНорм.частоставидеокарты + x.transformations.видеокартаНорм.памятьвидеокарты) * this.w1
+    //     }
+
+    //     if (x['type'] === 'Процессор') {
+    //       x.transformations.процессорНорм.частостапроцессора = x['cpu']['par2'] / толькочастотапроцессора.мах
+    //       x.transformations.процессорНорм.числопотоков = x['cpu']['par4'] / толькочислопотоков.мах
+    //       x.transformations.рейтинг = (x.transformations.процессорНорм.частостапроцессора + x.transformations.процессорНорм.числопотоков) * this.w2
+    //     }
+
+    //     if (x['type'] === 'Оперативная память') {
+    //       x.transformations.оперативкаНорм.объем = x['cpu']['par1'] / толькообъем.мах
+    //       x.transformations.оперативкаНорм.частотаоперативки = x['cpu']['par2'] / толькочастотаоперативки.мах
+    //       x.transformations.рейтинг = (x.transformations.оперативкаНорм.объем + x.transformations.оперативкаНорм.частотаоперативки) * this.w3
+    //     }
+
+
+    //     return x
+    //   })
 
 
 
-      videokards.map(x => {
-        processors.map(y => {
-          memories.map(z => {
-            alls.push({
-              список: [x, y, z],
-              общийрейтинг: x.transformations.рейтинг + y.transformations.рейтинг + z.transformations.рейтинг,
-              общаяцена: x['price'] + y['price'] + z['price']
-            })
+    //   return allItems1
 
-            return z
-          })
-          return y
-        })
-        return x
-      })
+    // },
+    // allItems3: function () {
+    //   let alls = []
+    //   let videokards = []
+    //   let processors = []
+    //   let memories = []
+    //   this.allItems2.map(x => {
+    //     if (x['type'] === 'Видеокарта') {
+    //       x.transformations.рейтинг *=  this.w1
+    //       videokards.push(x)
+    //     }
+    //     if (x['type'] === 'Процессор') {
+    //       x.transformations.рейтинг *=  this.w2
+    //       processors.push(x)
+    //     }
+    //     if (x['type'] === 'Оперативная память') {
+    //       x.transformations.рейтинг *=  this.w3
+    //       memories.push(x)
+    //     }
+    //     return x
+    //   })
 
-      console.log(alls)
+    //   videokards.map(x => {
+    //     processors.map(y => {
+    //       memories.map(z => {
+    //         alls.push({
+    //           список: [x, y, z],
+    //           общийрейтинг: x.transformations.рейтинг + y.transformations.рейтинг + z.transformations.рейтинг,
+    //           общаяцена: x['price'] + y['price'] + z['price']
+    //         })
+    //         return z
+    //       })
+    //       return y
+    //     })
+    //     return x
+    //   })
 
-      // .filter(x=>Number(x.общаяцена) < this.budget)
-
-      return alls.filter(x => x.общаяцена < this.budget).sort((a, b) => b.общийрейтинг - a.общийрейтинг)
-    }
-
+    //   console.log(alls)
+    //   return alls.filter(x => x.общаяцена < this.budget).sort((a, b) => b.общийрейтинг - a.общийрейтинг)
+    // }
   }
 }
 </script>
@@ -291,21 +299,22 @@ export default {
 <style scoped>
 input[type="range"] {
   -webkit-appearance: none;
-  
+
   height: 10px;
   background: #a5a3a3;
   border-radius: 5px;
-  
-  
+
+
 }
+
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 15px;
-  width:15px;
-  border:2px solid black;
+  width: 15px;
+  border: 2px solid black;
   border-radius: 50%;
   background: rgb(6, 255, 180);
-  
+
 }
 
 .groups {
@@ -409,9 +418,9 @@ input[type="range"]::-webkit-slider-thumb {
 input {
   width: 99%;
   border: 2px solid black;
-  box-shadow:inset 0 0 1px 1px rgb(1, 212, 149);
+  box-shadow: inset 0 0 1px 1px rgb(1, 212, 149);
   font-family: 'ErmilovBold';
-  border-radius:5px;
+  border-radius: 5px;
   font-size: 15px;
   background: #a5a3a3;
 }
@@ -452,24 +461,22 @@ select {
 }
 
 .btnBack span {
-  color:aliceblue;
+  color: aliceblue;
   padding: 5px;
   font-size: 25px;
-  text-shadow: -0 -3px  rgb(92, 92, 92), -0 -5px  rgb(6, 255, 180);
-  letter-spacing: 3px;
+  text-shadow: -0 -3px rgb(92, 92, 92), -0 -5px rgb(6, 255, 180);
+
   transition: all .3s;
 }
 
 .btnBack span:hover {
-  text-shadow: -0 -3px  rgb(92, 92, 92), -0 -5px  red;
+  text-shadow: -0 -3px rgb(92, 92, 92), -0 -5px red;
+  letter-spacing: 3px;
 }
 
 
 
-.btn {
-  
-
-}
+.btn {}
 
 .groups #items {
   width: auto;
@@ -505,4 +512,4 @@ select {
   
   
   
-  
+   -->

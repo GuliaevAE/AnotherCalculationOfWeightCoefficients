@@ -1,8 +1,8 @@
 <template>
   <div class="header">
     <!-- <a href="#/Container" class="Каталог">Catalog </a> -->
-    <nuxt-link to="/">Compilation</nuxt-link>
-    <nuxt-link to="/WeightCoefficients">Weight</nuxt-link>
+    <nuxt-link to="/catalog" active-class="act">Compilation</nuxt-link>
+    <nuxt-link to="/weightcoefficients2" active-class="act">Weight</nuxt-link>
   </div>
 
 </template>
@@ -19,6 +19,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 .header {
   height: 45px;
   width: 100%;
@@ -86,6 +88,14 @@ export default {
 a {
   text-decoration: none;
   color: rgb(195, 195, 195);
+  font-size: 20px;
+  
+  font-family: "CurrentRegular", Helvetica, Arial;
+  transition: all .3s;
+}
+.act{
+  text-decoration: none;
+  color: rgb(6, 255, 180);
   font-size: 20px;
   
   font-family: "CurrentRegular", Helvetica, Arial;
