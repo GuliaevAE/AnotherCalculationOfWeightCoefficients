@@ -238,11 +238,12 @@ select {
   background: #747474;
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
+ 
   align-items: flex-end;
   z-index: 11;
   box-sizing: border-box;
-  padding: 0 25px;
+  padding: 0 15%;
   box-shadow: 0 3px 5px rgb(39, 39, 39);
   z-index: 3;
   animation: dopmenuactive 1s ease-out;
