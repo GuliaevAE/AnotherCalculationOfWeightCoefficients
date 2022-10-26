@@ -312,7 +312,7 @@ select {
 .groups #items {
     
     margin: 0 5px;
-    margin-bottom: 20px;
+    margin-bottom: 20px; 
 
 }
 
