@@ -15,7 +15,7 @@
             </div>
 
 
-            <div class="filters">
+            <div class="fullWidth">
                 <span>Магазин</span>
                 <select v-model="f1.store">
                     <option value="">Все</option>
@@ -23,16 +23,16 @@
                     <option value="Ситилинк">Ситилинк</option>
                 </select>
             </div>
-            <div class="filters">
+            <div class="fullWidth">
                 <span>Цена</span>
                 <input type="number" v-model="f1.price" />
                 <input type="range" min="0" max="150000" v-model="f1.price" />
             </div>
         </div>
 
+        
 
-
-        <transition mode="out-in" name="">
+        <!-- <transition mode="out-in" name="">
             <div class="minicont" v-if="isOpen==='Видеокарта'" key="Видеокарта">
                 <div class="blockForType">
                     <CompsItemWeight2 class="items"
@@ -72,7 +72,24 @@
                         :image="it['image']" isImage='true' />
                 </div>
             </div>
-        </transition>
+        </transition> -->
+
+
+        <transition mode="out-in" name="">
+          <div class="minicont" >
+              <div class="blockForType">
+                  <CompsItemWeight4 class="items"
+                      v-for="(it, key) in datas.filter(x => x['type'] == isOpen &&prfilt(x, f1)&&stfilt(x, f1)).sort((a,b)=>b.transformations.рейтинг - a.transformations.рейтинг)"
+                      :key="it.id"  :itemData="it" :transformations="it.transformations" />
+              </div>
+          </div>
+
+          
+
+          
+      </transition>
+
+
 
     </div>
 </template>
@@ -104,7 +121,7 @@ export default {
   methods: {
     
     selectpart: function (event) {
-      console.log(event.target.id)
+      
       if (event.target.id === 'rowLeft') {
         if (this.isOpen === 'Видеокарта') return this.isOpen = 'Материнская плата'
         if (this.isOpen === 'Процессор') return this.isOpen = 'Видеокарта'
@@ -164,7 +181,6 @@ export default {
 .containerr {
   height: auto;
   width: 100%;
-  background: #444444;
   display: flex;
   justify-content: space-around;
   box-sizing: border-box;
@@ -221,7 +237,7 @@ select {
   border-radius: 5px;
   font-family: 'ErmilovBold';
   background: #a5a3a3;
-  width: 99%;
+  width: 100%;
   font-size: 15px;
   height: 25px;
 
@@ -329,7 +345,7 @@ select {
   width: 0;
 }
 
-.filters {
+.fullWidth {
   width: 100%;
 }
 </style>

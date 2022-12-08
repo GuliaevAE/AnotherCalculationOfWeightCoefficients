@@ -30,21 +30,22 @@
             <span>Бюджет<input type="number" v-model="budgets" /></span>
         </div>
         <div class="groups forArrows">
-            <span @click="page-=10">Влево</span>
-            <span @click="page+=10">Вправо</span>
+            <span @click="page -= 10">Влево</span>
+            <span @click="page += 10">Вправо</span>
         </div>
         <div class="groups"
-            v-for="(it,key) in datasWithWeight.filter(x => x.общаяцена < this.getBudget).sort((a, b) => b.общийрейтинг - a.общийрейтинг).slice(page, page+10)"
+            v-for="(it, key) in datasWithWeight.filter(x => x.общаяцена < this.getBudget).sort((a, b) => b.общийрейтинг - a.общийрейтинг).slice(page, page + 10)"
             :key="key">
             <div class="groupRating">
-                <span>Общая цена: {{it.общаяцена}}₽</span>
-                <span>Общий рейтинг: {{it.общийрейтинг.toFixed(5)}}</span>
+                <div>
+                    <span>price: {{ it.общаяцена }}₽</span>
+                    <span>rating: {{ it.общийрейтинг.toFixed(5) }}</span>
+                </div>
+
             </div>
             <div class="groupsData">
-                <CompsItemWeight2 id="items" v-for="(it1, key1) in it.список" :key="key1" :name="it1['name']"
-                    :store="it1['store']" :type="it1['type']" :price="it1['price']" :link="it1['link']"
-                    :cpu="it1['cpu']" :transformations='it1.transformations'  :image="it1['image']"
-                    isImage="true" />
+                <CompsItemWeight4 id="items" v-for="(it1, key1) in it.список" :key="key1" :itemData="it1"
+                    :transformations='it1.transformations' isSmall="true" />
             </div>
         </div>
     </div>
@@ -65,7 +66,7 @@ import { ref } from 'vue'
 
 
 export default {
-    mixins: [ mix2],
+    mixins: [mix2],
     props: ['datasWithWeight'],
     data() {
         return {
@@ -73,18 +74,16 @@ export default {
             w2s: 0.25,
             w3s: 0.25,
             w4s: 0.25,
-            budgets:100000
+            budgets: 100000
         }
     },
     methods: {
-
-        // ...mapActions('datas', ['rendData']),
         inputschange() {
             let allchange = (1 - this.w1s - this.w2s - this.w3s - this.w4s)
-            this.w1s =this.w1s + allchange / 4
-            this.w2s =this.w2s + allchange / 4
-            this.w3s =this.w3s + allchange / 4
-            this.w4s =this.w3s + allchange / 4
+            this.w1s = this.w1s + allchange / 4
+            this.w2s = this.w2s + allchange / 4
+            this.w3s = this.w3s + allchange / 4
+            this.w4s = this.w3s + allchange / 4
 
             this.$store.commit('datas/uploadCoefficients', { w1: this.w1s, w2: this.w2s, w3: this.w3s, w4: this.w4s })
             this.$store.commit('datas/uploadBudget', this.budgets)
@@ -108,26 +107,13 @@ export default {
     },
     computed: {
         ...mapGetters('datas', ['getBudget']),
-        
     },
-
-    mounted(){
-        console.log(this.datasWithWeight)
-    }
 }
 
 </script>
 
 
 <style scoped>
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0;
-    /* <-- Apparently some margin are still there even though it's hidden */
-}
-
 input[type="range"] {
     -webkit-appearance: none;
 
@@ -157,7 +143,7 @@ input[type="range"]::-webkit-slider-thumb {
     align-items: center;
     padding: 0 20px;
     justify-content: space-between;
-    
+
     padding-top: 10px;
 }
 
@@ -181,26 +167,43 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .groupRating {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
+
+
     margin-top: 20px;
     margin-bottom: 10px;
+    padding: 3px;
+    border-radius: 15px;
+    width: 100%;
+    background: rgb(81, 81, 81);
+    box-shadow: 0 -3px rgb(107, 107, 107), 0 -5px 1px rgb(6, 255, 180);
+
 
 
 }
 
-.groupRating span {
-    font-size: 15px;
-    font-weight: 800;
+.groupRating div {
+    background: #27272c;
+    box-shadow: inset 0 0 2px rgb(0, 0, 0);
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px 12px 15px 15px;
+    display: flex;
+    justify-content: space-between;
+}
 
+.groupRating span {
+
+    color: #ffffff;
+
+    font-family: "CurrentRegular";
+    font-weight: 700;
+    font-size: 20px;
 }
 
 .containerr {
     height: auto;
     width: 100%;
-    background: #444444;
+
     display: flex;
     justify-content: space-around;
     box-sizing: border-box;
@@ -247,7 +250,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input {
-    width: 99%;
+    width: 100%;
     border: 2px solid black;
     box-shadow: inset 0 0 1px 1px rgb(1, 212, 149);
     font-family: 'ErmilovBold';
@@ -306,19 +309,16 @@ select {
 }
 
 
-
-.btn {}
-
 .groups #items {
-    
+
     margin: 0 5px;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
 
 }
 
 .groupsData {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
 
 }
@@ -327,11 +327,13 @@ select {
 @media (max-width: 1150px) {
     .groups #items {
         width: 100%;
-       
+
     }
-    .minicont{
+
+    .minicont {
         width: 50%;
     }
+
     .groupsData {
         flex-wrap: wrap;
     }

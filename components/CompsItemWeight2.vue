@@ -248,7 +248,7 @@ export default {
 
 .store {
     color: rgb(184, 184, 184);
-
+    
     transition: all .3s;
 }
 
@@ -271,7 +271,7 @@ export default {
 
 a {
     text-decoration: none;
-    color: white;
+   
     transition: transform .3s;
 }
 
