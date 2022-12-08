@@ -39,7 +39,7 @@ export default {
       if (x.type === 'Материнская плата') {
         return x
       }
-
+ 
     }
     return { arrayFilt }
   },
