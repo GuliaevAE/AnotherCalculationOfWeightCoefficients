@@ -9,18 +9,15 @@
         </div>
 
         <div class="minicont">
-            <div @click="$store.commit('datas/deletes') ">
-
-                <!-- {{getdatas}} -->
-            </div>
+           
 
 
             <div class="fullWidth">
                 <span>Магазин</span>
                 <select v-model="f1.store">
                     <option value="">Все</option>
-                    <option value="ДНС">ДНС</option>
-                    <option value="Ситилинк">Ситилинк</option>
+                    <option value="DNS">ДНС</option>
+                    <option value="SITILINK">Ситилинк</option>
                 </select>
             </div>
             <div class="fullWidth">
@@ -103,7 +100,7 @@ import { ref } from 'vue'
 import {mapGetters, mapActions} from 'vuex'
 
 export default {
-    mixins: [Mixin],
+    mixins: [],
     props:['datas'],
     setup() {
     let f1 = ref({ store: '', price: 300000 })
@@ -117,6 +114,11 @@ export default {
     }
 
     return { stfilt, prfilt, f1 }
+  },
+  data(){
+    return{
+      isOpen: 'Видеокарта',
+    }
   },
   methods: {
     

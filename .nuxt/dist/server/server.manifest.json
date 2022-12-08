@@ -1,0 +1,25 @@
+{
+  "entry": "server.js",
+  "files": {
+    "components/comps-item-weight2.js": "components/comps-item-weight2.js",
+    "components/comps-item-weight3.js": "components/comps-item-weight3.js",
+    "components/comps-item-weight4.js": "components/comps-item-weight4.js",
+    "components/nuxt-logo.js": "components/nuxt-logo.js",
+    "components/tutorial.js": "components/tutorial.js",
+    "pages/index.js": "pages/index.js",
+    "pages/index/catalog.js": "pages/index/catalog.js",
+    "pages/index/weightcoefficients2.js": "pages/index/weightcoefficients2.js",
+    "server.js": "server.js"
+  },
+  "maps": {
+    "components/comps-item-weight2.js": "components/comps-item-weight2.js.map",
+    "components/comps-item-weight3.js": "components/comps-item-weight3.js.map",
+    "components/comps-item-weight4.js": "components/comps-item-weight4.js.map",
+    "components/nuxt-logo.js": "components/nuxt-logo.js.map",
+    "components/tutorial.js": "components/tutorial.js.map",
+    "pages/index.js": "pages/index.js.map",
+    "pages/index/catalog.js": "pages/index/catalog.js.map",
+    "pages/index/weightcoefficients2.js": "pages/index/weightcoefficients2.js.map",
+    "server.js": "server.js.map"
+  }
+}

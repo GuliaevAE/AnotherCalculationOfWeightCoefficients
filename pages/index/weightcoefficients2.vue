@@ -66,7 +66,7 @@ import { ref } from 'vue'
 
 
 export default {
-    mixins: [mix2],
+    mixins: [],
     props: ['datasWithWeight'],
     data() {
         return {
@@ -74,7 +74,9 @@ export default {
             w2s: 0.25,
             w3s: 0.25,
             w4s: 0.25,
-            budgets: 100000
+            budgets: 100000,
+            page:0
+            
         }
     },
     methods: {

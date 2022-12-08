@@ -1,11 +1,14 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-  // mode:'spa',
-  target: 'server',
-  router: {
-     base: '/AnotherCalculationOfWeightCoefficients/',
-    
-   },
+  target: 'static',
+  ssr: false,
+
+  generate: {
+    fallback: true
+  },
+  // router: {
+  //    base: '/AnotherCalculationOfWeightCoefficients/',
+  //  },
   head: {
     title: 'Подбор пк',
     htmlAttrs: {
@@ -41,15 +44,14 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/bootstrap
-    'bootstrap-vue/nuxt',
     '@nuxtjs/axios'
-    
-    
+
+
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    
+
   },
-  
+
 }

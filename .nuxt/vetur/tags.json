@@ -1,0 +1,20 @@
+{
+  "CompsItemWeight2": {
+    "description": "Auto imported from components/CompsItemWeight2.vue"
+  },
+  "CompsItemWeight3": {
+    "description": "Auto imported from components/CompsItemWeight3.vue"
+  },
+  "CompsItemWeight4": {
+    "description": "Auto imported from components/CompsItemWeight4.vue"
+  },
+  "HelloWorld": {
+    "description": "Auto imported from components/HelloWorld.vue"
+  },
+  "NuxtLogo": {
+    "description": "Auto imported from components/NuxtLogo.vue"
+  },
+  "Tutorial": {
+    "description": "Auto imported from components/Tutorial.vue"
+  }
+}
