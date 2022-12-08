@@ -1,0 +1,38 @@
+html,
+body {
+  margin: 0;
+  padding: 0 0;
+  background: #444444;
+}
+
+html::-webkit-scrollbar {
+  width: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+@font-face {
+  font-family: "CurrentRegular";
+  src: url(../fonts/Current-Regular.otf) format("truetype");
+}
+
+@font-face {
+  font-family: "ErmilovBold";
+  src: url(../fonts/Ermilov-bold.otf) format("truetype");
+}
+
+@font-face {
+  font-family: "AktivGroteskCorp";
+  src: url(../fonts/AktivGroteskCorp-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "UncutSansRegular";
+  src: url(../fonts/ua-BRAND-regular.otf) format("truetype");
+}
