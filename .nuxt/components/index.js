@@ -1,9 +1,9 @@
-export const CompsItemWeight2 = () => import('../..\\components\\CompsItemWeight2.vue' /* webpackChunkName: "components/comps-item-weight2" */).then(c => wrapFunctional(c.default || c))
-export const CompsItemWeight3 = () => import('../..\\components\\CompsItemWeight3.vue' /* webpackChunkName: "components/comps-item-weight3" */).then(c => wrapFunctional(c.default || c))
-export const CompsItemWeight4 = () => import('../..\\components\\CompsItemWeight4.vue' /* webpackChunkName: "components/comps-item-weight4" */).then(c => wrapFunctional(c.default || c))
-export const HelloWorld = () => import('../..\\components\\HelloWorld.vue' /* webpackChunkName: "components/hello-world" */).then(c => wrapFunctional(c.default || c))
-export const NuxtLogo = () => import('../..\\components\\NuxtLogo.vue' /* webpackChunkName: "components/nuxt-logo" */).then(c => wrapFunctional(c.default || c))
-export const Tutorial = () => import('../..\\components\\Tutorial.vue' /* webpackChunkName: "components/tutorial" */).then(c => wrapFunctional(c.default || c))
+export { default as CompsItemWeight2 } from '../..\\components\\CompsItemWeight2.vue'
+export { default as CompsItemWeight3 } from '../..\\components\\CompsItemWeight3.vue'
+export { default as CompsItemWeight4 } from '../..\\components\\CompsItemWeight4.vue'
+export { default as HelloWorld } from '../..\\components\\HelloWorld.vue'
+export { default as NuxtLogo } from '../..\\components\\NuxtLogo.vue'
+export { default as Tutorial } from '../..\\components\\Tutorial.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {
