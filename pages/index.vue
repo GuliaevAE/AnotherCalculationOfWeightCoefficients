@@ -399,7 +399,7 @@ export default {
 }
 </script>
   
-<style lang="scss" >
+<style  >
 .error{
   position: fixed;
   height: 100vh;
@@ -418,13 +418,14 @@ export default {
   justify-content: center;
   align-items:center;
 
-  p{
-    color:white
-  }
+  
 
   
 }
 
+  .welcome p{
+      color:white
+  }
 
  h1, strong{
   color: rgb(6, 255, 180);
