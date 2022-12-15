@@ -23,8 +23,6 @@
           <form>
             <label>Название</label>
             <input type="text" v-model="filtProcName" />
-            
-           
           </form>
           <input type="submit" @click="submit" value="Применить">
         </div>
@@ -134,10 +132,17 @@ input {
   border-bottom-left-radius: 25%;
   border-bottom-right-radius: 25%;
   box-shadow: 0 3px 5px rgb(39, 39, 39);
-
+  animation:slideHeader 1s ease;
 }
 
-
+@keyframes slideHeader {
+  0%{
+    transform: translateY(-100%);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
 
 .row {
   height: 45px;
