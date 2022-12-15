@@ -45,7 +45,7 @@ export default {
   },
   async asyncData({ $axios }) {
     try {
-      const posts = await $axios.$get('http://localhost:8080/api/document')
+      const posts = await $axios.$get('http://a0754783.xsph.ru/api/document')
       return { posts }
     } catch (error) {
       const posts = []

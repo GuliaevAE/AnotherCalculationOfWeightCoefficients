@@ -11,9 +11,9 @@ create Table videokards(
     frequency VARCHAR(255),
     interface VARCHAR(255),
     frequencyMemory VARCHAR(255),
-    Техпроцесс VARCHAR(255),
     processTechnology VARCHAR(255),
     MemoryBusWidth VARCHAR(255),
+    typeofmemory VARCHAR(255),
     image VARCHAR(255)
 );
 
