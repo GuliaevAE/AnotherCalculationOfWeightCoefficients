@@ -4,9 +4,9 @@ export default {
  
 
 
-  router: {
-     base: '/AnotherCalculationOfWeightCoefficients/',
-   },
+  // router: {
+  //    base: '/AnotherCalculationOfWeightCoefficients/',
+  //  },
   head: {
     title: 'Подбор пк',
     htmlAttrs: {
