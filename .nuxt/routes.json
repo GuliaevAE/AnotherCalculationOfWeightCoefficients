@@ -9,17 +9,14 @@
         "name": "index-catalog",
         "path": "catalog",
         "component": "E:\\\\pr1\\\\pages\\\\index\\\\catalog.vue",
-        "chunkName": "pages/index/catalog",
-        "_name": "_5b0c839f"
+        "chunkName": "pages/index/catalog"
       },
       {
         "name": "index-weightcoefficients2",
         "path": "weightcoefficients2",
         "component": "E:\\\\pr1\\\\pages\\\\index\\\\weightcoefficients2.vue",
-        "chunkName": "pages/index/weightcoefficients2",
-        "_name": "_500a33a2"
+        "chunkName": "pages/index/weightcoefficients2"
       }
-    ],
-    "_name": "_0712242c"
+    ]
   }
 ]

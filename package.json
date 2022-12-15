@@ -26,5 +26,8 @@
     "@nuxtjs/vuetify": "^1.12.3",
     "gh-pages": "^4.0.0",
     "webpack": "^4.46.0"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
