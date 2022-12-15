@@ -6,7 +6,7 @@
       <h1>Соединение с сервером утеряно!</h1>
     </div>
 
-    <!-- <div v-if="posts.length" class="welcome">
+    <div v-if="posts.length" class="welcome">
       <h1>Сервис для подбора комплектующих для пк</h1>
       <p>Данные предоставлены из магазинов ДНС и СИТИЛИНК</p>
       <p>Последнее обновление данный: <strong>14.12.2022</strong></p>
@@ -24,7 +24,7 @@
       <p>
         Во вкладке WEIGHT предоставлены сбоки, сортированные по их рейтингам.
       </p>
-    </div> -->
+    </div>
     
   </div>
   
@@ -399,7 +399,7 @@ export default {
 }
 </script>
   
-<style  >
+<style lang="scss" >
 .error{
   position: fixed;
   height: 100vh;
@@ -418,14 +418,13 @@ export default {
   justify-content: center;
   align-items:center;
 
-  
+  p{
+    color:white
+  }
 
   
 }
 
-  .welcome p{
-      color:white
-  }
 
  h1, strong{
   color: rgb(6, 255, 180);
