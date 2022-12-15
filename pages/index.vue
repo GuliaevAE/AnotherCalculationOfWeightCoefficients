@@ -5,6 +5,27 @@
     <div v-else class="error">
       <h1>Соединение с сервером утеряно!</h1>
     </div>
+
+    <div v-if="posts.length" class="welcome">
+      <h1>Сервис для подбора комплектующих для пк</h1>
+      <p>Данные предоставлены из магазинов ДНС и СИТИЛИНК</p>
+      <p>Последнее обновление данный: <strong>14.12.2022</strong></p>
+      <p>Список представленных компонентов
+        <ul>
+          <li>Видеокарты</li>
+          <li>Процессоры</li>
+          <li>Оперативные памяти</li>
+          <li>Материнские платы</li>
+        </ul>
+      </p>
+      <p>
+        Во вкладке COMPILATION можно посмотреть все имеющиеся компоненты в отдельности. 
+      </p>
+      <p>
+        Во вкладке WEIGHT предоставлены сбоки, сортированные по их рейтингам.
+      </p>
+    </div>
+    
   </div>
   
 
@@ -378,7 +399,7 @@ export default {
 }
 </script>
   
-<style>
+<style lang="scss" >
 .error{
   position: fixed;
   height: 100vh;
@@ -388,7 +409,24 @@ export default {
   align-items:center
 }
 
-.error h1{
+.welcome{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+
+  p{
+    color:white
+  }
+
+  
+}
+
+
+ h1, strong{
   color: rgb(6, 255, 180);
 }
 
