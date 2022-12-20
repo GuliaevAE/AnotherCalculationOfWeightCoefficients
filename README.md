@@ -1,4 +1,5 @@
-# pr1
+# 
+Service for the selection of components for PC using weight coefficients
 
 ## Build Setup
 
