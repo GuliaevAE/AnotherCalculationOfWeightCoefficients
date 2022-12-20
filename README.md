@@ -1,5 +1,4 @@
-# 
-Service for the selection of components for PC using weight coefficients
+# Service for the selection of components for PC using weight coefficients
 
 ## Build Setup
 
