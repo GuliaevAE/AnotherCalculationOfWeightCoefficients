@@ -1,9 +1,9 @@
 export { default as CompsItemWeight2 } from '../..\\components\\CompsItemWeight2.vue'
 export { default as CompsItemWeight3 } from '../..\\components\\CompsItemWeight3.vue'
 export { default as CompsItemWeight4 } from '../..\\components\\CompsItemWeight4.vue'
+export { default as FilterMenu } from '../..\\components\\FilterMenu.vue'
 export { default as HelloWorld } from '../..\\components\\HelloWorld.vue'
-export { default as NuxtLogo } from '../..\\components\\NuxtLogo.vue'
-export { default as Tutorial } from '../..\\components\\Tutorial.vue'
+export { default as RegLogMenu } from '../..\\components\\RegLogMenu.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

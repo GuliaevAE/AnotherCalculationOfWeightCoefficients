@@ -8,13 +8,13 @@
   "CompsItemWeight4": {
     "description": "Auto imported from components/CompsItemWeight4.vue"
   },
+  "FilterMenu": {
+    "description": "Auto imported from components/FilterMenu.vue"
+  },
   "HelloWorld": {
     "description": "Auto imported from components/HelloWorld.vue"
   },
-  "NuxtLogo": {
-    "description": "Auto imported from components/NuxtLogo.vue"
-  },
-  "Tutorial": {
-    "description": "Auto imported from components/Tutorial.vue"
+  "RegLogMenu": {
+    "description": "Auto imported from components/RegLogMenu.vue"
   }
 }

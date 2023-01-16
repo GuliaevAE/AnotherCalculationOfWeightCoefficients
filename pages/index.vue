@@ -20,10 +20,12 @@
 
       </p>
       <p>
-        Во вкладке <nuxt-link to="/catalog" active-class="act">Compilation</nuxt-link>  можно посмотреть все имеющиеся компоненты в отдельности.
+        Во вкладке <nuxt-link to="/catalog" active-class="act">Compilation</nuxt-link> можно посмотреть все имеющиеся
+        компоненты в отдельности.
       </p>
       <p>
-        Во вкладке  <nuxt-link to="/weightcoefficients2" active-class="act">Weight</nuxt-link>  предоставлены сбоки, сортированные по их рейтингам.
+        Во вкладке <nuxt-link to="/weightcoefficients2" active-class="act">Weight</nuxt-link> предоставлены сбоки,
+        сортированные по их рейтингам.
       </p>
     </div>
 
@@ -68,6 +70,7 @@ export default {
   async asyncData({ $axios }) {
     try {
       const posts = await $axios.$get('http://a0754783.xsph.ru/api/document')
+      // const posts = await $axios.$get('http://localhost:8080/api/document')
       return { posts }
     } catch (error) {
       const posts = []
@@ -75,16 +78,15 @@ export default {
     }
 
   },
-  computed: {
-    ...mapGetters('datas', ['getCoefficients']),
-    ...mapGetters('datas', ['getBudget']),
-    ...mapGetters('datas', ['getfiltVidName']),
-    ...mapGetters('datas', ['getfiltVidMemory']),
-
-    ...mapGetters('datas', ['getfiltProcName']),
-    rendData() {
-
-      const data = this.posts
+  mounted() {
+    const user = localStorage.getItem("login")
+    const userId = localStorage.getItem("loginId")
+    this.$store.commit('datas/uploadlogin', user)
+    this.$store.commit('datas/uploadloginId', userId)
+  },
+  methods: {
+    normalizeDatasValues(posts) {
+      const data = posts
       /////////////////////////видеокарта///////////////////////////////////
       let толькочастотавидеокарты = { список: [] }
       let толькопамятьвидеокарты = { список: [] }
@@ -186,62 +188,7 @@ export default {
         x['price'] = Number(x['price'])
         return x
       })
-      // allItems1.map(x => {
-      //   if (x['type'] === 'Видеокарта') {
-      //     толькочастотавидеокарты.список.push(Number(x['frequency']))
-      //     толькопамятьвидеокарты.список.push(Number(x['memory']))
-      //     ТолькоЧастотаПамятиВидеокарты.список.push(Number(x['frequencymemory']))
-      //     ТолькоТехпроцессВидеокарты.список.push(Number(x['processtechnology']))
-      //     ТолькоРазрядностьШиныПамяти.список.push(Number(x['memorybuswidth']))
-      //     x.transformations = {
-      //       норм: {
-      //         частоставидеокарты: 0,
-      //         памятьвидеокарты: 0,
-      //         ЧастотаПамяти: 0,
-      //         Техпроцесс: 0,
-      //         РазрядностьШиныПамяти: 0,
-      //       }, рейтинг: 0
-      //     }
-      //   }
 
-      //   if (x['type'] === 'Процессор') {
-      //     толькочастотапроцессора.список.push(Number(x['frequency']))
-      //     толькочислопотоков.список.push(Number(x['numberofthreads']))
-      //     ТолькоКоличествоЯдер.список.push(Number(x['numberofcores']))
-      //     ТолькоКоличествоКаналов.список.push(Number(x['numberofchannels']))
-      //     ТолькоЧастотаГрафическогоЯдра.список.push((x['graphicscorefrequency']))
-      //     // ТолькоЧастотаПамятиПроцессора.список.push(Number(x ['ЧастотаПамяти']))
-      //     x.transformations = {
-      //       норм: {
-      //         частостапроцессора: 0,
-      //         числопотоков: 0,
-      //         КоличествоЯдер: 0,
-      //         КоличествоКаналов: 0,
-      //         ЧастотаГрафическогоЯдра: 0,
-      //         ЧастотаПамяти: 0,
-      //       }, рейтинг: 0
-      //     }
-      //   }
-
-      //   if (x['type'] === 'Оперативная память') {
-      //     толькообъем.список.push(Number(x['capacity']))
-      //     толькочастотаоперативки.список.push(Number(x['frequency']))
-      //     ТолькоКоличествоМодулей.список.push(Number(x['numberofmodules']))
-      //     ТолькоОбъемМодуля.список.push(Number(x['volumemodule']))
-      //     x.transformations = { норм: { объем: 0, частотаоперативки: 0, КоличествоМодулей: 0, ОбъемМодуля: 0 }, рейтинг: 0 }
-      //   }
-
-
-      //   if (x['type'] === 'Материнская плата') {
-      //     ТолькоМаксимальнаяЧастотаПамяти.список.push(Number(x['maxmemoryfrequency']))
-      //     ТолькоМаксимальныйОбъемПамяти.список.push(Number(x['maxmemory']))
-      //     ТолькоКоличествоКаналовПамяти.список.push(Number(x['numberofmemorychannels']))
-      //     ТолькоКоличествоСлотовPCIE1.список.push(Number(x['numberofslotspcie1']))
-      //     ТолькоКоличествоСлотовПамяти.список.push(Number(x['numberofmemoryslots']))
-      //     x.transformations = { норм: { объем: 0, частотаоперативки: 0, КоличествоМодулей: 0, ОбъемМодуля: 0 }, рейтинг: 0 }
-      //   }
-      //   return x
-      // })
 
       function getOfArray(numArray) {
         let max = 0
@@ -343,6 +290,62 @@ export default {
       })
       return allItems1.filter(x => this.arrayFilt(x))
 
+
+
+    },
+    addingWeightingValues(allItems1){
+      allItems1.map(x => {
+        if (x['type'] === 'Видеокарта') {
+          x.transformations.норм.частоставидеокарты = x['frequency'] / толькочастотавидеокарты.мах
+          x.transformations.норм.памятьвидеокарты = x['memory'] / толькопамятьвидеокарты.мах
+          x.transformations.норм.ЧастотаПамяти = x['frequencymemory'] / ТолькоЧастотаПамятиВидеокарты.мах
+          x.transformations.норм.Техпроцесс = x['processtechnology'] / ТолькоТехпроцессВидеокарты.мах
+          x.transformations.норм.РазрядностьШиныПамяти = x['memorybuswidth'] / ТолькоРазрядностьШиныПамяти.мах
+          x.transformations.рейтинг = (x.transformations.норм.частоставидеокарты + x.transformations.норм.памятьвидеокарты + x.transformations.норм.ЧастотаПамяти - x.transformations.норм.Техпроцесс + x.transformations.норм.РазрядностьШиныПамяти) * this.getCoefficients.w1
+        }
+        if (x['type'] === 'Процессор') {
+          x.transformations.норм.частостапроцессора = x['frequency'] / толькочастотапроцессора.мах
+          x.transformations.норм.числопотоков = x['numberofthreads'] / толькочислопотоков.мах
+          x.transformations.норм.КоличествоЯдер = x['numberofcores'] / ТолькоКоличествоЯдер.мах
+          x.transformations.норм.КоличествоКаналов = x['numberofchannels'] / ТолькоКоличествоКаналов.мах
+          x.transformations.норм.ЧастотаГрафическогоЯдра = x['graphicscorefrequency'] / ТолькоЧастотаГрафическогоЯдра.мах
+          // x.transformations.норм.ЧастотаПамяти = x ['ЧастотаПамяти'] / ТолькоЧастотаПамятиПроцессора.мах
+          x.transformations.рейтинг = (x.transformations.норм.частостапроцессора + x.transformations.норм.числопотоков + x.transformations.норм.КоличествоЯдер + x.transformations.норм.КоличествоКаналов + x.transformations.норм.ЧастотаГрафическогоЯдра) * this.getCoefficients.w2
+        }
+        if (x['type'] === 'Оперативная память') {
+          x.transformations.норм.объем = x['capacity'] / толькообъем.мах
+          x.transformations.норм.частотаоперативки = x['frequency'] / толькочастотаоперативки.мах
+          x.transformations.норм.КоличествоМодулей = x['numberofmodules'] / ТолькоКоличествоМодулей.мах
+          x.transformations.норм.ОбъемМодуля = x['volumemodule'] / ТолькоОбъемМодуля.мах
+          x.transformations.рейтинг = (x.transformations.норм.объем + x.transformations.норм.частотаоперативки + x.transformations.норм.КоличествоМодулей + x.transformations.норм.ОбъемМодуля) * this.getCoefficients.w3
+        }
+        if (x['type'] === 'Материнская плата') {
+          x.transformations.норм.МаксимальнаяЧастотаПамяти = x['maxmemoryfrequency'] / ТолькоМаксимальнаяЧастотаПамяти.мах
+          x.transformations.норм.МаксимальныйОбъемПамяти = x['maxmemory'] / ТолькоМаксимальныйОбъемПамяти.мах
+          x.transformations.норм.КоличествоКаналовПамяти = x['numberofmemorychannels'] / ТолькоКоличествоКаналовПамяти.мах
+          x.transformations.норм.КоличествоСлотовPCIE1 = x['numberofslotspcie1'] / ТолькоКоличествоСлотовPCIE1.мах
+          x.transformations.норм.КоличествоСлотовПамяти = x['numberofmemoryslots'] / ТолькоКоличествоСлотовПамяти.мах
+          x.transformations.рейтинг = (x.transformations.норм.МаксимальнаяЧастотаПамяти + x.transformations.норм.МаксимальныйОбъемПамяти + x.transformations.норм.КоличествоКаналовПамяти + x.transformations.норм.КоличествоСлотовPCIE1 + x.transformations.норм.КоличествоСлотовПамяти) * this.getCoefficients.w4
+        }
+        return x
+      })
+      return allItems1.filter(x => this.arrayFilt(x))
+    },
+
+   
+  },
+  computed: {
+    ...mapGetters('datas', ['getloginId']),
+    ...mapGetters('datas', ['getCoefficients']),
+    ...mapGetters('datas', ['getBudget']),
+    ...mapGetters('datas', ['getfiltVidName']),
+    ...mapGetters('datas', ['getfiltVidMemory']),
+    ...mapGetters('datas', ['getfiltProcName']),
+
+
+    rendData() {
+      return this.normalizeDatasValues(this.posts)
+      
 
     },
     allitems3() {

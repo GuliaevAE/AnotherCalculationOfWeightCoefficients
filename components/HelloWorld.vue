@@ -4,31 +4,22 @@
     <!-- <div @click.prevent="isMenu = !isMenu" >
       <Icon icon="material-symbols:menu-rounded"  color= "rgb(195, 195, 195)" height="40"/>
     </div> -->
-   
+    
     <nuxt-link to="/weightcoefficients2" active-class="act">Weight</nuxt-link>
+    <div class="options" @click="isRegLog = !isRegLog">Profile</div>
+    <!-- <div class="userCard">
+      <span v-if="getlogin">{{getlogin}}</span>
+      <span v-else>Пусто</span>
+    </div> -->
     <Transition name="slide">
-      <div v-if="isMenu" class="menu">
-        <div class="minicont">
-          <span>Видеокарта</span>
-          <form>
-            <label>Название</label>
-            <input type="text" v-model="filtVidName" />
-            <label>Память</label>
-            <input type="number" v-model="filtVidMemory" />
-          </form>
-          <input type="submit" @click="submit" value="Применить">
-        </div>
-        <div class="minicont">
-          <span>Процессор</span>
-          <form>
-            <label>Название</label>
-            <input type="text" v-model="filtProcName" />
-          </form>
-          <input type="submit" @click="submit" value="Применить">
-        </div>
-       
-      </div>
+      <FilterMenu v-if="isMenu" />
+      <RegLogMenu v-if="isRegLog"/>
     </Transition>
+
+    <div v-if="getlogin" class="loginCard">
+      <div class="userLogo">User</div>
+      <span>{{getlogin}}{{ getloginId }}</span>
+    </div>
   </div>
 
 </template>
@@ -36,35 +27,61 @@
 <script>
 
 import { Icon } from '@iconify/vue2';
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-		Icon,
+		Icon
 	},
   data() {
     return {
       isMenu: false,
+      isRegLog:false,
       filtVidName: '',
       filtVidMemory:'',
-
       filtProcName:''
     }
   },
-  methods: {
-    submit() {
-      console.log(this.$store.state.datas.filtVidName)
-      this.$store.commit('datas/uploadfiltVidName', this.filtVidName)
-      this.$store.commit('datas/uploadfiltVidMemory', this.filtVidMemory)
-
-      this.$store.commit('datas/uploadfiltProcName', this.filtProcName)
-    }
+  computed:{
+    ...mapGetters('datas', ['getlogin']),
+    ...mapGetters('datas', ['getloginId']),
   }
+  // methods: {
+  //   submit() {
+  //     console.log(this.$store.state.datas.filtVidName)
+  //     this.$store.commit('datas/uploadfiltVidName', this.filtVidName)
+  //     this.$store.commit('datas/uploadfiltVidMemory', this.filtVidMemory)
+
+  //     this.$store.commit('datas/uploadfiltProcName', this.filtProcName)
+  //   }
+  // }
 
 
 }
 </script>
 
 <style scoped>
+
+.userLogo{
+  padding: 3px;
+  background: #585858;
+  border-radius: 5px solid rgb(6, 255, 180);
+}
+.userCard{
+  background: #585858;
+  box-shadow:inset 0 0 5px black;
+  padding: 5px 10px;
+}
+.loginCard{
+  position: absolute;
+  left: 0;
+  bottom:-90vh;
+  padding: 10px 20px;
+  background:grey;
+  color: rgb(6, 255, 180);
+  display: flex;
+  align-items:center;
+}
 
 .slide-enter-active,
 .slide-leave-active{
@@ -77,47 +94,7 @@ export default {
 }
 
 
-.minicont{
-  display: flex;
-  flex-direction: column;
-}
 
-.minicont span {
-  font-family: 'ErmilovBold';
-  color: rgb(0, 0, 0);
-  font-size: 18px;
-  margin-bottom: 10px;
-  width: 100%;
-  transition: text-shadow .5s;
-}
-
-
-
-input {
-  width: 100%;
-  border: 2px solid black;
-  box-shadow: inset 0 0 1px 1px rgb(1, 212, 149);
-  font-family: 'ErmilovBold';
-  border-radius: 5px;
-  font-size: 12px;
-  background: #a5a3a3;
-}
-
-.menu {
-  position: absolute;
-  left: auto;
-  right: auto;
-  top: 100px;
-  background: #515151;
-  width: 90%;
-  border: 2px solid rgb(6, 255, 180);
-  border-radius: 10px;
-
-  display: flex;
-  padding: 15px;
-  
-
-}
 
 .header {
   height: 45px;
@@ -190,7 +167,7 @@ input {
 
 }
 
-a {
+a, .options {
   text-decoration: none;
   color: rgb(195, 195, 195);
   font-size: 20px;

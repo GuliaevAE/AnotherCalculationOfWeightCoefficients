@@ -1,62 +1,66 @@
 <template>
-    <div class="item"  @mouseenter="isHov = true" @mouseleave="isHov = false">
+    <div class="item" @mouseenter="isHov = true" @mouseleave="isHov = false">
         <!-- @mouseenter="isHov=true" @mouseleave="isHov=false" -->
 
         <div class="data">
             <div class="divName">
                 <div class="nameAndStore" :class="{ activeText: isHov }">
                     <div style="display:flex; justify-content:space-between">
-                        <span class="store" :class="{ activestore: isHov, juststore: !isHov }">{{ itemData.store
-                        }}</span>
+                        <span class="store" :class="{ activestore: isHov, juststore: !isHov }">
+                            {{ itemData.store }}
+                        </span>
                         <a class="store" :class="{ activestore: isHov, juststore: !isHov }" target="_blank"
-                            :href=itemData.link>{{ itemData.price }}₽</a>
+                            :href=itemData.link><span>{{ itemData.price }} Ryb</span></a>
                     </div>
 
                     <div class="title">
                         <div><span>{{ itemData.name }}</span></div>
-                        
-                    </div>
 
+                    </div>
                 </div>
 
-
-                <div class="deskr " :class="{ activeText: isHov, smallheight:isSmall }">
+                <div class="deskr " :class="{ activeText: isHov, smallheight: isSmall }">
                     <div class="hov" :class="{ op0: isOpen }">
                         <span v-for="(value, key) in itemData" :key="key"
-                            v-if="key !== 'id' && key !== 'type'&& key !== 'price' && key !== 'store' && key !== 'name' && key !== 'link' && key !== 'type' && key !== 'image' && key !== 'transformations'">
+                            v-if="key !== 'id' && key !== 'type' && key !== 'price' && key !== 'store' && key !== 'name' && key !== 'link' && key !== 'type' && key !== 'image' && key !== 'transformations'">
                             {{ key }}: {{ value }}
                         </span>
                     </div>
                     <div class="ranksValues hov" :class="{ op1: isOpen }">
-                        <span v-for="(value, key) in transformations.норм">{{ key }}: {{ value.toFixed(3) }}</span>
+                        <div class="message" v-if="message"><strong>{{message}}</strong></div>
+                        <span v-if="!message" v-for="(value, key) in transformations.норм">{{ key }}: {{ value.toFixed(3) }}</span>
+                        
                     </div>
 
                 </div>
             </div>
-            <div class="divOther">
+            <div class="divOther" >
                 <div>
                     <span>{{ itemData.type }}</span>
                 </div>
 
-                <!-- <span id="link" :class="{actionlink: isHov, justlink: !isHov}"><a target="_blank" :href=link>+</a></span> -->
-                <!-- <div v-if="isImage === 'false'">
-                    <img :src="image" />
-
-                </div> -->
-
             </div>
         </div>
 
-        <div class="footer" :class="{ activeprice: isHov }" @click="isOpen = !isOpen">
+        <div class="footer" :class="{ activeprice: isHov }">
             <span id="rating">RATING: {{ transformations.рейтинг.toFixed(3) }}</span>
-            <Icon icon="mdi:eye" height="50"  />
+            <div class="icons">
+                <div @click="isOpen = !isOpen">
+                    <Icon  icon="mdi:eye" height="40" />
+                </div>
+                <div @click="addNewClientPart">
+                    <Icon  icon="material-symbols:bookmark-add" height="38" />
+                </div>
+            </div>
+
+
         </div>
     </div>
 </template>
   
 <script>
 import { Icon } from '@iconify/vue2';
-
+import { mapGetters } from 'vuex'
 export default {
     name: 'CompsItemWeight',
     props: ['itemData', 'transformations', 'isSmall'],
@@ -67,17 +71,38 @@ export default {
         return {
             isHov: false,
             isOpen: false,
+            message:false
         }
     },
+    computed: {
+        ...mapGetters('datas', ['getloginId'])
+    },
+    methods: {
+        asd() {
+            console.log(this.getloginId)
+        },
+        async addNewClientPart() {
+            // const message = await this.$axios.$post('http://localhost:8080/api/newcp', { clientid: this.getloginId, moduleid: this.itemData.id, type: this.itemData.type })
+            // console.log(message.message)
+            // this.message = message.message
+            // this.isOpen = true
+            // setTimeout(()=>{
+            //     this.isOpen=false
+            // },750)
+            // setTimeout(()=>{
+            //     this.message=false 
+            // },1000)
+
+
+
+                const ip = await this.$axios.$post('http://localhost:8080/api/allcp', {clientid:this.getloginId })
+        }
+    }
 
 }
 </script>
   
-<!-- eef0f3 -->
-<!-- 27272c -->
-<!-- transform-style:preserve-3d;
-    transform: rotateX(30deg);  -->
-<style scoped>
+<style lang="scss" scoped>
 #rating {
     font-family: "CurrentRegular";
     font-weight: 700;
@@ -94,6 +119,23 @@ export default {
     left: 0;
     right: 0;
     opacity: 0;
+
+
+    .message{
+        height: 100%;
+        width: 100%;
+        color:rgb(6, 255, 180);
+        display: flex;
+        
+        justify-content: center;
+        align-items:center;
+
+        strong{
+            font-size: 20px;
+            display: inline-block;
+            width: 80%;
+        }
+    }
 }
 
 .op1 {
@@ -125,8 +167,6 @@ export default {
     box-shadow: 0 -3px rgb(92, 92, 92), 0 -5px 7px rgb(6, 255, 180), 0 0px 7px rgb(6, 255, 180);
 }
 
-
-
 .data {
     display: flex;
     background: #27272c;
@@ -146,9 +186,6 @@ export default {
 
 }
 
-
-
-
 .nameAndStore {
     display: flex;
     flex-direction: column;
@@ -162,8 +199,8 @@ export default {
 
 
 .store {
+    font-size: 15px;
     color: rgb(184, 184, 184);
-
     transition: all .3s;
 }
 
@@ -186,24 +223,8 @@ export default {
 
 a {
     text-decoration: none;
-
     transition: transform .3s;
 }
-
-
-
-
-.justlink {
-    top: 5px;
-}
-
-.actionlink {
-    top: 10px;
-    text-shadow: 0 -3px rgb(92, 92, 92), 0 -5px red;
-}
-
-
-
 
 
 #link {
@@ -218,36 +239,27 @@ a {
 
 #link:hover {
     text-shadow: -0 -3px rgb(92, 92, 92), -0 -5px rgb(6, 255, 180);
-
 }
 
 .divName {
     width: auto;
     display: flex;
     flex-wrap: wrap;
-
     align-self: center;
     font-family: 'AktivGroteskCorp';
     color: rgb(185, 185, 185);
     font-size: 15px;
-
 }
 
 .divOther {
     width: auto;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-
-    margin-left: 5px;
-
+    margin-left: 10px;
     background: rgb(81, 81, 81);
     padding: 10px 0;
-    border-radius: 4px;
-
-
+    border-radius: 4px 6px 6px 4px;
 }
 
 
@@ -265,34 +277,7 @@ a {
 }
 
 
-.st {
-    background: wheat;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 5px 5px;
-    border-radius: 10px;
-    font-family: "AktivGroteskCorp";
-    font-weight: bold;
-    margin-top: 5px;
-}
-
-.dns {
-    background: orange;
-    color: white;
-    border: 2px solid white;
-}
-
-.citilink {
-    background: white;
-    color: rgb(255, 115, 0);
-    border: 2px solid rgb(255, 115, 0);
-    font-size: 15px;
-}
-
-
-
 #price {
-
     color: rgb(255, 255, 255);
     font-family: "CurrentRegular";
     position: absolute;
@@ -304,18 +289,14 @@ a {
 }
 
 .activeprice {
-
     color: rgb(6, 255, 180)
 }
 
 
 .price.activeprice {
-
-
     top: 5px;
     color: white;
     text-shadow: -0 -3px rgb(92, 92, 92), -0 -5px red;
-
 }
 
 
@@ -347,6 +328,11 @@ a {
     position: relative;
     padding: 0 10px;
 
+    .icons {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
 
 }
 
@@ -355,10 +341,8 @@ a {
 
 .footer span {
     transition: all .3s;
-
-   
     font-size: 15px;
-    color: #ffffff
+    color: rgb(36, 36, 36)
 }
 
 .footer.activeprice span {
@@ -382,13 +366,7 @@ a {
 }
 
 
-.rotateZ {
-    transform: rotate(90deg)
-}
 
-.rotateZ img {
-    transform: scale(1.2);
-}
 
 .МГц::after {
     content: 'МГц';
@@ -411,25 +389,26 @@ a {
 
 
 @keyframes animText {
-    0%{
-        transform: translateX(0);
+    0% {
+        transform: translateX(0)
     }
-    50%{
-        transform: translateX(-50%);
+
+    50% {
+        transform: translateX(-50%)
     }
-    100%{
-        transform: translateX(0);
+
+    100% {
+        transform: translateX(0)
     }
 }
 
 .deskr {
     position: relative;
-    
     overflow-y: auto;
     width: 100%;
 }
 
-.smallheight{
+.smallheight {
     height: 180px;
 }
 

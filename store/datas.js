@@ -8,6 +8,10 @@ export const state = () => ({
     w3: 0.25,
     w4: 0.25,
     budget: 100000,
+
+    login:null,
+    loginId:null,
+
     filtVidName: '',
     filtVidMemory: '',
 
@@ -17,6 +21,12 @@ export const state = () => ({
 export const mutations = {
     uploaddata(state, data) {
         state.datas = data
+    },
+    uploadlogin(state, data) {
+        state.login = data
+    },
+    uploadloginId(state, data) {
+        state.loginId = data
     },
     uploadfiltVidName(state, data) {
         state.filtVidName = data
@@ -55,6 +65,12 @@ export const mutations = {
 export const getters = {
     getdatas: (state) => {
         return state.datas
+    },
+    getlogin: (state) => {
+        return state.login
+    },
+    getloginId: (state) => {
+        return state.loginId
     },
     getfiltVidName: (state) => {
         return state.filtVidName

@@ -95,7 +95,6 @@
 
 <script>
 import Mixin from '~/mixins.js/Mixin2.js'
-// import { toNumber } from '@vue/shared'
 import { ref } from 'vue'
 import {mapGetters, mapActions} from 'vuex'
 

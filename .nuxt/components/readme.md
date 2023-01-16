@@ -9,6 +9,6 @@ You can directly use them in pages and other components without the need to impo
 - `<CompsItemWeight2>` | `<comps-item-weight2>` (components/CompsItemWeight2.vue)
 - `<CompsItemWeight3>` | `<comps-item-weight3>` (components/CompsItemWeight3.vue)
 - `<CompsItemWeight4>` | `<comps-item-weight4>` (components/CompsItemWeight4.vue)
+- `<FilterMenu>` | `<filter-menu>` (components/FilterMenu.vue)
 - `<HelloWorld>` | `<hello-world>` (components/HelloWorld.vue)
-- `<NuxtLogo>` | `<nuxt-logo>` (components/NuxtLogo.vue)
-- `<Tutorial>` | `<tutorial>` (components/Tutorial.vue)
+- `<RegLogMenu>` | `<reg-log-menu>` (components/RegLogMenu.vue)
