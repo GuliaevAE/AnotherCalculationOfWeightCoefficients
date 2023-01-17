@@ -14,6 +14,9 @@
   "HelloWorld": {
     "description": "Auto imported from components/HelloWorld.vue"
   },
+  "Help": {
+    "description": "Auto imported from components/Help.vue"
+  },
   "RegLogMenu": {
     "description": "Auto imported from components/RegLogMenu.vue"
   }

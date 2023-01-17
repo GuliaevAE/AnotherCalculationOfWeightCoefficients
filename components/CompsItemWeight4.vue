@@ -27,14 +27,16 @@
                         </span>
                     </div>
                     <div class="ranksValues hov" :class="{ op1: isOpen }">
-                        <div class="message" v-if="message"><strong>{{message}}</strong></div>
-                        <span v-if="!message" v-for="(value, key) in transformations.норм">{{ key }}: {{ value.toFixed(3) }}</span>
-                        
+                        <div class="message" v-if="message"><strong>{{ message }}</strong></div>
+                        <span v-if="!message" v-for="(value, key) in transformations.норм">{{ key }}: {{
+                            value.toFixed(3)
+                        }}</span>
+
                     </div>
 
                 </div>
             </div>
-            <div class="divOther" >
+            <div class="divOther">
                 <div>
                     <span>{{ itemData.type }}</span>
                 </div>
@@ -46,10 +48,13 @@
             <span id="rating">RATING: {{ transformations.рейтинг.toFixed(3) }}</span>
             <div class="icons">
                 <div @click="isOpen = !isOpen">
-                    <Icon  icon="mdi:eye" height="40" />
+                    <Icon icon="mdi:eye" height="40" />
                 </div>
-                <div @click="addNewClientPart">
-                    <Icon  icon="material-symbols:bookmark-add" height="38" />
+                <div v-if="userPart === 'false'" @click="addNewClientPart">
+                    <Icon icon="material-symbols:bookmark-add" height="38" />
+                </div>
+                <div v-if="userPart === 'true'" @click="deleteUserParts">
+                    <Icon icon="majesticons:analytics-delete" height="37" />
                 </div>
             </div>
 
@@ -63,7 +68,7 @@ import { Icon } from '@iconify/vue2';
 import { mapGetters } from 'vuex'
 export default {
     name: 'CompsItemWeight',
-    props: ['itemData', 'transformations', 'isSmall'],
+    props: ['itemData', 'transformations', 'isSmall', 'userPart'],
     components: {
         Icon,
     },
@@ -71,32 +76,45 @@ export default {
         return {
             isHov: false,
             isOpen: false,
-            message:false
+            message: false
         }
     },
     computed: {
         ...mapGetters('datas', ['getloginId'])
     },
     methods: {
-        asd() {
-            console.log(this.getloginId)
-        },
         async addNewClientPart() {
-            // const message = await this.$axios.$post('http://localhost:8080/api/newcp', { clientid: this.getloginId, moduleid: this.itemData.id, type: this.itemData.type })
-            // console.log(message.message)
-            // this.message = message.message
-            // this.isOpen = true
-            // setTimeout(()=>{
-            //     this.isOpen=false
-            // },750)
-            // setTimeout(()=>{
-            //     this.message=false 
-            // },1000)
+            const message = await this.$axios.$post('http://localhost:8080/api/newcp', { clientid: this.getloginId, moduleid: this.itemData.id, type: this.itemData.type })
+            console.log(message.message)
+            this.message = message.message
+            this.isOpen = true
+            setTimeout(() => {
+                this.isOpen = false
+                this.$nuxt.$emit('refreshUserParts')
+            }, 750)
+            setTimeout(() => {
+                this.message = false
+            }, 1000)
 
 
 
-                const ip = await this.$axios.$post('http://localhost:8080/api/allcp', {clientid:this.getloginId })
-        }
+            // const ip = await this.$axios.$post('http://localhost:8080/api/allcp', { clientid: this.getloginId })
+        },
+        async deleteUserParts() {
+            const message = await this.$axios.$post('http://localhost:8080/api/deletecp', { clientid: this.getloginId, moduleid: this.itemData.id, type: this.itemData.type })
+            console.log(message.message)
+            this.message = message.message
+            this.isOpen = true
+            setTimeout(() => {
+                this.isOpen = false
+                this.$nuxt.$emit('refreshUserParts')
+            }, 750)
+            setTimeout(() => {
+                this.message = false
+            }, 1000)
+
+
+        },
     }
 
 }
@@ -121,16 +139,16 @@ export default {
     opacity: 0;
 
 
-    .message{
+    .message {
         height: 100%;
         width: 100%;
-        color:rgb(6, 255, 180);
+        color: rgb(6, 255, 180);
         display: flex;
-        
-        justify-content: center;
-        align-items:center;
 
-        strong{
+        justify-content: center;
+        align-items: center;
+
+        strong {
             font-size: 20px;
             display: inline-block;
             width: 80%;
@@ -263,9 +281,6 @@ a {
 }
 
 
-
-
-
 @keyframes text {
     0% {
         transform: translateX(0%);
@@ -275,7 +290,6 @@ a {
         transform: translateX(-50%);
     }
 }
-
 
 #price {
     color: rgb(255, 255, 255);
@@ -305,17 +319,18 @@ a {
     display: flex;
     flex-direction: column;
     transition: all .3s;
+
+    span::before {
+        content: "";
+        display: inline-block;
+        height: 10px;
+        width: 10px;
+        border: 2px solid rgb(6, 255, 180);
+        border-radius: 50%;
+        margin-right: 5px;
+    }
 }
 
-.hov span::before {
-    content: "";
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-    border: 2px solid rgb(6, 255, 180);
-    border-radius: 50%;
-    margin-right: 5px;
-}
 
 
 .footer {
@@ -334,16 +349,19 @@ a {
         align-items: center;
     }
 
+
+    span {
+        transition: all 13s;
+        transition: none;
+        color: rgb(36, 36, 36)
+    }
+
 }
 
 
 
 
-.footer span {
-    transition: all .3s;
-    font-size: 15px;
-    color: rgb(36, 36, 36)
-}
+
 
 .footer.activeprice span {
     color: rgb(6, 255, 180)
@@ -354,7 +372,6 @@ a {
     writing-mode: vertical-lr;
     font-weight: 700;
     font-size: 18px;
-
 }
 
 .divOther img {
@@ -362,45 +379,8 @@ a {
     height: auto;
     max-width: 90px;
     position: relative;
-
 }
 
-
-
-
-.МГц::after {
-    content: 'МГц';
-}
-
-.ГГц::after {
-    content: 'ГГц';
-}
-
-.Гб::after {
-    content: 'Гб';
-}
-
-.₽::after {
-    content: '₽';
-    font-weight: 700;
-    font-size: 21px;
-}
-
-
-
-@keyframes animText {
-    0% {
-        transform: translateX(0)
-    }
-
-    50% {
-        transform: translateX(-50%)
-    }
-
-    100% {
-        transform: translateX(0)
-    }
-}
 
 .deskr {
     position: relative;
@@ -423,7 +403,6 @@ a {
 
 .activeText span {
     color: white;
-
 }
 
 item:hover {
@@ -440,27 +419,3 @@ item:hover {
     animation: moveGradient 4s alternate infinite;
 }
 </style>
-<!-- hsl(269, 100%, 50%),
-hsl(314, 100%, 57%),
-hsl(359, 100%, 54%),
-hsl(44, 100%, 55%),
-hsl(89, 100%, 55%),
-hsl(134, 100%, 55%),
-hsl(179, 100%, 56%)); -->
-
-
-
-
-
-<!-- hsl(224, 100%, 58%),
-hsl(269, 100%, 50%),
-hsl(359, 100%, 54%),
-hsl(61, 100%, 50%),
-hsl(125, 100%, 50%) -->
-
-
-
-<!-- #link:hover {
-    text-shadow: -3px -3px  rgb(92, 92, 92), -5px -5px  rgb(255, 24, 24);
-    transform: rotate(45deg);
-} -->

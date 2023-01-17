@@ -6,7 +6,8 @@
     </div> -->
     
     <nuxt-link to="/weightcoefficients2" active-class="act">Weight</nuxt-link>
-    <div class="options" @click="isRegLog = !isRegLog">Profile</div>
+    <div class="options" v-if="getlogin"><span @click="isRegLog = !isRegLog">Pro</span>/<nuxt-link to="/profile/catalogForUser" >file</nuxt-link></div>
+    <div class="options" v-else><span @click="isRegLog = !isRegLog">Profile</span></div>
     <!-- <div class="userCard">
       <span v-if="getlogin">{{getlogin}}</span>
       <span v-else>Пусто</span>
@@ -16,9 +17,9 @@
       <RegLogMenu v-if="isRegLog"/>
     </Transition>
 
-    <div v-if="getlogin" class="loginCard">
-      <div class="userLogo">User</div>
-      <span>{{getlogin}}{{ getloginId }}</span>
+    <div v-if="getlogin" class="loginCard" >
+      <div>{{getlogin}}</div>
+ 
     </div>
   </div>
 
@@ -45,42 +46,38 @@ export default {
   computed:{
     ...mapGetters('datas', ['getlogin']),
     ...mapGetters('datas', ['getloginId']),
+    path(){
+      return $nuxt.$route.name
+    }
+  },
+  methods: {
+    redirect() {
+      this.$nuxt.$router.replace({ path: '/help'});
+    }
+  },
+  mounted(){
+    this.$nuxt.$on('closeRegLog', ($event) => {
+     this.isRegLog = false
+    })
   }
-  // methods: {
-  //   submit() {
-  //     console.log(this.$store.state.datas.filtVidName)
-  //     this.$store.commit('datas/uploadfiltVidName', this.filtVidName)
-  //     this.$store.commit('datas/uploadfiltVidMemory', this.filtVidMemory)
-
-  //     this.$store.commit('datas/uploadfiltProcName', this.filtProcName)
-  //   }
-  // }
 
 
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-.userLogo{
-  padding: 3px;
-  background: #585858;
-  border-radius: 5px solid rgb(6, 255, 180);
-}
-.userCard{
-  background: #585858;
-  box-shadow:inset 0 0 5px black;
-  padding: 5px 10px;
-}
+
 .loginCard{
   position: absolute;
   left: 0;
-  bottom:-90vh;
+  bottom:-92vh;
   padding: 10px 20px;
   background:grey;
   color: rgb(6, 255, 180);
   display: flex;
   align-items:center;
+  border-radius: 0 10px 10px 0;
 }
 
 .slide-enter-active,
@@ -99,7 +96,8 @@ export default {
 .header {
   height: 45px;
   width: 100%;
-  background: #515151;
+  
+  background: #3c3c3e;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -109,6 +107,7 @@ export default {
   border-bottom-left-radius: 25%;
   border-bottom-right-radius: 25%;
   box-shadow: 0 3px 5px rgb(39, 39, 39);
+  
   animation:slideHeader 1s ease;
 }
 
@@ -132,58 +131,58 @@ export default {
 }
 
 
-@keyframes moveGradient {
-  0% {
-    text-shadow: 0 0 3px hsl(224, 100%, 58%);
-  }
 
-  12.5% {
-    text-shadow: 0 0 3px hsl(269, 100%, 56%);
+.options{
+  span{
+    display:inline-block
   }
-
-  25% {
-    text-shadow: 0 0 3px hsl(314, 100%, 57%);
+  span:hover{
+    color: rgb(255, 255, 255);
   }
-
-  37.5% {
-    text-shadow: 0 0 3px hsl(359, 100%, 54%);
-  }
-
-  50% {
-    text-shadow: 0 0 3px hsl(44, 100%, 55%);
-  }
-
-  62.5% {
-    text-shadow: 0 0 3px hsl(89, 100%, 55%);
-  }
-
-  75% {
-    text-shadow: 0 0 3px hsl(134, 100%, 55%);
-  }
-
-  100% {
-    text-shadow: 0 0 3px hsl(179, 100%, 56%);
-  }
-
 }
+
 
 a, .options {
   text-decoration: none;
   color: rgb(195, 195, 195);
-  font-size: 20px;
+  font-size: 18px;
   font-family: "CurrentRegular";
   transition: all .3s;
 }
 
 .act {
-
   color: rgb(6, 255, 180);
-
 }
 
 a:hover {
   color: rgb(255, 255, 255);
   transform: scale(1.02);
-  animation: moveGradient 4s alternate infinite;
+}
+
+@keyframes moveGradient {
+  0% {
+    text-shadow: 0 0 3px hsl(224, 100%, 58%);
+  }
+  12.5% {
+    text-shadow: 0 0 3px hsl(269, 100%, 56%);
+  }
+  25% {
+    text-shadow: 0 0 3px hsl(314, 100%, 57%);
+  }
+  37.5% {
+    text-shadow: 0 0 3px hsl(359, 100%, 54%);
+  }
+  50% {
+    text-shadow: 0 0 3px hsl(44, 100%, 55%);
+  }
+  62.5% {
+    text-shadow: 0 0 3px hsl(89, 100%, 55%);
+  }
+  75% {
+    text-shadow: 0 0 3px hsl(134, 100%, 55%);
+  }
+  100% {
+    text-shadow: 0 0 3px hsl(179, 100%, 56%);
+  }
 }
 </style>

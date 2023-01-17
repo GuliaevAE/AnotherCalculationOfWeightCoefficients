@@ -12,6 +12,32 @@
         "chunkName": "pages/index/catalog"
       },
       {
+        "name": "index-Help",
+        "path": "Help",
+        "component": "E:\\\\pr1\\\\pages\\\\index\\\\Help.vue",
+        "chunkName": "pages/index/Help"
+      },
+      {
+        "name": "index-profile",
+        "path": "profile",
+        "component": "E:\\\\pr1\\\\pages\\\\index\\\\profile.vue",
+        "chunkName": "pages/index/profile",
+        "children": [
+          {
+            "name": "index-profile-catalogForUser",
+            "path": "catalogForUser",
+            "component": "E:\\\\pr1\\\\pages\\\\index\\\\profile\\\\catalogForUser.vue",
+            "chunkName": "pages/index/profile/catalogForUser"
+          },
+          {
+            "name": "index-profile-weightcoefficientsForUser",
+            "path": "weightcoefficientsForUser",
+            "component": "E:\\\\pr1\\\\pages\\\\index\\\\profile\\\\weightcoefficientsForUser.vue",
+            "chunkName": "pages/index/profile/weightcoefficientsForUser"
+          }
+        ]
+      },
+      {
         "name": "index-weightcoefficients2",
         "path": "weightcoefficients2",
         "component": "E:\\\\pr1\\\\pages\\\\index\\\\weightcoefficients2.vue",

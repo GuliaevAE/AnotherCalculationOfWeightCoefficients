@@ -11,4 +11,5 @@ You can directly use them in pages and other components without the need to impo
 - `<CompsItemWeight4>` | `<comps-item-weight4>` (components/CompsItemWeight4.vue)
 - `<FilterMenu>` | `<filter-menu>` (components/FilterMenu.vue)
 - `<HelloWorld>` | `<hello-world>` (components/HelloWorld.vue)
+- `<Help>` | `<help>` (components/Help.vue)
 - `<RegLogMenu>` | `<reg-log-menu>` (components/RegLogMenu.vue)

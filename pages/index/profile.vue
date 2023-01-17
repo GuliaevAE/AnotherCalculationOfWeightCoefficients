@@ -1,29 +1,39 @@
 <template>
 
-  <div>
-    <NuxtChild keep-alive :datas='rendData' :datasWithWeight='datasWithWeight' v-if="successfulRequest" />
-    <div v-else class="error">
-      <h1>Соединение с сервером утеряно!</h1>
+  <div class="containerr">
+    <div class="rows">
+      <nuxt-link to="/profile/catalogForUser" active-class="act">UserCatalog</nuxt-link>
+      <nuxt-link to="/profile/weightcoefficientsForUser" active-class="act">UserWeight</nuxt-link>
     </div>
-
-    
+    <!-- <span>Данные пользователя {{getlogin}}</span> -->
+    <NuxtChild keep-alive :datas="rendData" :datasWithWeight="datasWithWeight"></NuxtChild>
 
   </div>
-
-
-
 </template>
-  
+
+
+
 <script>
-import { mapGetters } from 'vuex'
+
+import { ref } from 'vue'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-  layout: 'lay1',
-  data(){
-    return{
-      userPosts:[]
-    }
-  },
+
+  props: ['datas'],
+
   setup() {
+    let f1 = ref({ store: '', price: 300000 })
+
+    function prfilt(x, f) {
+      return x['price'] <= f.price
+    }
+    function stfilt(x, f) {
+      if (f.store === '') { return x }
+      return x['store'] == f.store
+    }
+
+
     function arrayFilt(x) {
       if (x.type === 'Видеокарта'
         && x.name.toLowerCase().indexOf(this.getfiltVidName.toLowerCase()) !== -1
@@ -42,36 +52,37 @@ export default {
       }
 
     }
-    return { arrayFilt }
-  },
- 
-  async asyncData({ $axios }) {
-    try {
-      // const posts = await $axios.$get('http://a0754783.xsph.ru/api/document')
-      const posts = await $axios.$get('http://localhost:8080/api/document')
-      const dateofchange = await $axios.$get('http://localhost:8080/api/dateofchange')
-      const lastdateofchange = dateofchange[dateofchange.length-1]
-      const successfulRequest = true
-      return { posts,successfulRequest,lastdateofchange }
-    } catch (error) {
-      const posts = []
-      const successfulRequest =false
-      return { posts,successfulRequest }
-    }
 
+
+    return { stfilt, prfilt, f1, arrayFilt }
+  },
+  data() {
+    return {
+      isOpen: 'Видеокарта',
+      userDatas: [],
+
+    }
   },
   mounted() {
-    const user = localStorage.getItem("login")
-    const userId = localStorage.getItem("loginId")
-    this.$store.commit('datas/uploadlogin', user)
-    this.$store.commit('datas/uploadloginId', userId)
-    // console.log('userId',userId)
-    // if(userId)this.$nuxt.$emit('logIn', userId)
-    if(this.path==='index'||this.path==='index-profile'){
-      this.redirect()
-    }
+    this.$nuxt.$on('refreshUserParts', ($event) => {
+      this.fetchUserParts('$event', $event)
+    })
+
+
+
   },
+
+
   methods: {
+    async fetchUserParts() {
+      const userParts = await this.$axios.$post('http://localhost:8080/api/allcp', { clientid: this.getloginId })
+      this.userDatas = userParts
+    },
+    redirect() {
+      // console.log('redirect')
+      this.$nuxt.$router.replace({ path: '/help' });
+    },
+
     normalizeDatasValues(posts) {
       const data = posts
       /////////////////////////видеокарта///////////////////////////////////
@@ -280,25 +291,47 @@ export default {
 
 
     },
-    redirect() {
-      this.$nuxt.$router.replace({ path: '/help'});
-    }
+    selectpart: function (event) {
 
-   
+      if (event.target.id === 'rowLeft') {
+        if (this.isOpen === 'Видеокарта') return this.isOpen = 'Материнская плата'
+        if (this.isOpen === 'Процессор') return this.isOpen = 'Видеокарта'
+        if (this.isOpen === 'Оперативная память') return this.isOpen = 'Процессор'
+        if (this.isOpen === 'Материнская плата') return this.isOpen = 'Оперативная память'
+      }
+      if (event.target.id === 'rowRight') {
+        if (this.isOpen === 'Материнская плата') return this.isOpen = 'Видеокарта'
+        if (this.isOpen === 'Видеокарта') return this.isOpen = 'Процессор'
+        if (this.isOpen === 'Процессор') return this.isOpen = 'Оперативная память'
+        if (this.isOpen === 'Оперативная память') return this.isOpen = 'Материнская плата'
+      }
+
+
+    },
+
   },
+
   computed: {
+    ...mapGetters('datas', ['getlogin']),
     ...mapGetters('datas', ['getloginId']),
     ...mapGetters('datas', ['getCoefficients']),
     ...mapGetters('datas', ['getBudget']),
     ...mapGetters('datas', ['getfiltVidName']),
     ...mapGetters('datas', ['getfiltVidMemory']),
     ...mapGetters('datas', ['getfiltProcName']),
-    path(){
+    path() {
       return $nuxt.$route.name
     },
-
     rendData() {
-      return this.normalizeDatasValues(this.posts)
+      if (this.getloginId && !this.userDatas.length) {
+        this.$axios.$post('http://localhost:8080/api/allcp', { clientid: this.getloginId }).then(res => {this.userDatas = res})
+      }
+      if (!this.getloginId && this.userDatas.length) {
+        this.userDatas = []
+        if (this.path === 'index-profile-catalogForUser' || this.path === 'index-profile-weightcoefficientsForUser'){ this.redirect()}
+      }
+
+      return this.normalizeDatasValues(this.userDatas)
     },
     datasWithWeight() {
       let alls = []
@@ -351,73 +384,184 @@ export default {
       })
       return alls
     },
-  },
+  }
 }
+
 </script>
-  
-<style lang="scss" >
-.error {
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center
-}
 
-.welcome {
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
-  p {
-    color: white
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
-
-    span {
-      color: white;
-
-      &::before {
-        content: "";
-        display: inline-block;
-        height: 10px;
-        width: 10px;
-        border: 2px solid rgb(6, 255, 180);
-        border-radius: 50%;
-        margin-right: 5px;
-      }
-    }
-  }
-
-}
-
+<style lang="scss" scoped>
 a {
-  display: inline-block;
   text-decoration: none;
   color: rgb(195, 195, 195);
-  font-size: 20px;
+  font-size: 15px;
   font-family: "CurrentRegular";
   transition: all .3s;
 
   &:hover {
     color: rgb(255, 255, 255);
-    text-decoration: none;
     transform: scale(1.02);
-    animation: moveGradient 4s alternate infinite;
+
+  }
+}
+
+.act {
+
+  color: rgb(6, 255, 180);
+
+}
+
+
+
+
+@keyframes moveout {
+  50% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-20vw);
+  }
+}
+
+@keyframes movein {
+  0% {
+    transform: translateX(-20vw);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.containerr {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  padding-top: 100px;
+}
+
+input,
+select {
+  border: 2px solid black;
+  box-shadow: inset 0 0 1px 1px rgb(1, 212, 149);
+  border-radius: 5px;
+  font-family: 'ErmilovBold';
+  background: #a5a3a3;
+  width: 100%;
+  font-size: 15px;
+  height: 25px;
+
+}
+
+
+
+
+
+.rows {
+  position: fixed;
+  top: 30px;
+  height: 45px;
+  background: #747474;
+  background: #515151;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  align-items: flex-end;
+  z-index: 11;
+  box-sizing: border-box;
+  padding: 0 15%;
+  box-shadow: 0 3px 5px rgb(39, 39, 39);
+
+  z-index: 4;
+  animation: dopmenuactive 1s ease-out;
+  border-bottom-left-radius: 25%;
+  border-bottom-right-radius: 25%;
+}
+
+@keyframes dopmenuactive {
+  0% {
+    top: 0;
+  }
+
+  100% {
+    top: 32px;
+  }
+}
+
+.rows span {
+  width: auto;
+  margin: 0;
+  font-family: 'ErmilovBold';
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  transition: text-shadow .5s;
+}
+
+.row {
+  height: 25px;
+  padding: 5px 0;
+
+}
+
+.left {
+  transform: rotate(90deg);
+}
+
+.right {
+  transform: rotate(-90deg);
+}
+
+
+
+.blockForType {
+  height: auto;
+  width: 100%;
+  overflow-y: auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+}
+
+.blockForType .items {
+  margin-top: 15px;
+
+
+}
+
+@media (max-width: 760px) {
+  .blockForType .items {
+    width: 100%;
+  }
+}
+
+@media (min-width: 760px) {
+  .blockForType .items {
+    width: 48%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .blockForType .items {
+    width: 31%;
   }
 }
 
 
-h1,
-strong {
-  color: rgb(6, 255, 180);
+
+.blockForType::-webkit-scrollbar {
+  width: 0;
+}
+
+.fullWidth {
+  width: 100%;
 }
 </style>

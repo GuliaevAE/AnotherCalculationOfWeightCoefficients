@@ -3,6 +3,7 @@ export { default as CompsItemWeight3 } from '../..\\components\\CompsItemWeight3
 export { default as CompsItemWeight4 } from '../..\\components\\CompsItemWeight4.vue'
 export { default as FilterMenu } from '../..\\components\\FilterMenu.vue'
 export { default as HelloWorld } from '../..\\components\\HelloWorld.vue'
+export { default as Help } from '../..\\components\\Help.vue'
 export { default as RegLogMenu } from '../..\\components\\RegLogMenu.vue'
 
 // nuxt/nuxt.js#8607

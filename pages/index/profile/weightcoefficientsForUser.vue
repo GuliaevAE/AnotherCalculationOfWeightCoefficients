@@ -44,7 +44,7 @@
 
             </div>
             <div class="groupsData">
-                <CompsItemWeight4 userPart="false" id="items" v-for="(it1, key1) in it.список" :key="key1" :itemData="it1"
+                <CompsItemWeight4 userPart="true" id="items" v-for="(it1, key1) in it.список" :key="key1" :itemData="it1"
                     :transformations='it1.transformations' isSmall="true" />
             </div>
         </div>
@@ -209,7 +209,7 @@ input[type="range"]::-webkit-slider-thumb {
     box-sizing: border-box;
     flex-wrap: wrap;
     padding: 0 0;
-    padding-top: 60px;
+    
     padding-bottom: 30px;
 }
 
